@@ -3,7 +3,7 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "ara-tools"
+name = "aratools"
 version = "0.0.1"
 authors = [
   { name="Miron van der Kolk", email="mironvanderkolk@proton.me" },
@@ -20,8 +20,8 @@ classifiers = [
 dependencies = []
 
 [project.urls]
-"Homepage" = "https://github.com/mironleon/ara-tools"
-"Bug Tracker" = "https://github.com/mironleon/ara-tools/issues"
+"Homepage" = "https://github.com/mironleon/aratools"
+"Bug Tracker" = "https://github.com/mironleon/aratools/issues"
 
 [tool.isort]
 profile = "black"

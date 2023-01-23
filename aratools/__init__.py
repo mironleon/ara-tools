@@ -1,3 +1,3 @@
 from . import ponskaart
 
-__all__ = ['ponskaart']
+__all__ = ["ponskaart"]

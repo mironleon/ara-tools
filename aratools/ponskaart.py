@@ -28,14 +28,15 @@ class PonsKaart:
         path = self.input_dir / "teams.csv"
         with csvreader(path) as reader:
             self.team_names = tuple(row[0] for row in reader)
-        assert len(self.team_names > 0)
+        assert len(self.team_names)
 
     def _process_etappe_files(self):
         # etappe file should contain header with transport kind (kano, fiets, hardlopen)
-        CP_FILE = re.compile(r"cp_etappe_\d*\.csv$", flag=re.IGNORECASE)
+        CP_FILE = re.compile(r"etappe_\d*\.csv$", re.IGNORECASE)
         paths = sorted(
             path for path in self.input_dir.iterdir() if CP_FILE.match(str(path))
         )
+        assert len(paths)
         _etappes = tuple(Etappe.from_csv(path) for path in paths)
         self.etappes = {et.idx: et for et in _etappes}
 
