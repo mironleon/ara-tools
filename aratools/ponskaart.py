@@ -46,6 +46,7 @@ class CheckPoint:
     idx: int
     score: int  # how many points scoring the cp is worth
     hint: str
+    # TODO some cp's should not show coordinate, add 'hidden' attribute?
     coordinate: tuple[
         int, int
     ]  # https://nl.wikipedia.org/wiki/Rijksdriehoeksco%C3%B6rdinaten
@@ -65,6 +66,7 @@ class Etappe:
 
     def __post_init__(self):
         assert tuple(sorted(self.checkpoints)) == self.checkpoints
+        assert len(self.checkpoints)
 
     @classmethod
     def from_csv(cls, path: Path):

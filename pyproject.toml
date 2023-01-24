@@ -17,7 +17,9 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 
-dependencies = []
+dependencies = [
+  "drawSvg==1.9.0"
+]
 
 [project.urls]
 "Homepage" = "https://github.com/mironleon/aratools"
