@@ -3,7 +3,7 @@ from pathlib import Path
 import re
 from contextlib import contextmanager
 from collections.abc import Iterator
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 
 @contextmanager
@@ -34,10 +34,10 @@ class PonsKaart:
         # etappe file should contain header with transport kind (kano, fiets, hardlopen)
         CP_FILE = re.compile(r"etappe_\d*\.csv$", re.IGNORECASE)
         paths = sorted(
-            path for path in self.input_dir.iterdir() if CP_FILE.match(str(path))
+            path for path in self.input_dir.iterdir() if CP_FILE.search(str(path))
         )
         assert len(paths)
-        _etappes = tuple(Etappe.from_csv(path) for path in paths)
+        _etappes = tuple(sorted(Etappe.from_csv(path) for path in paths))
         self.etappes = {et.idx: et for et in _etappes}
 
 
@@ -53,12 +53,18 @@ class CheckPoint:
     def __lt__(self, other):
         return self.idx < other
 
+    def __gt__(self, other):
+        return self.idx > other
+
 
 @dataclass(frozen=True)
 class Etappe:
     idx: int
     kind: str  # fietsen, kano, run-bike
     checkpoints: tuple[CheckPoint, ...]
+
+    def __post_init__(self):
+        assert tuple(sorted(self.checkpoints)) == self.checkpoints
 
     @classmethod
     def from_csv(cls, path: Path):
@@ -80,3 +86,12 @@ class Etappe:
 
     def __lt__(self, other):
         return self.idx < other
+
+    def __gt__(self, other):
+        return self.idx > other
+
+    def __len__(self):
+        return len(self.checkpoints)
+
+    def __iter__(self):
+        return iter(self.checkpoints)
