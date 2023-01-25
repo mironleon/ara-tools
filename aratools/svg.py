@@ -1,5 +1,9 @@
-from aratools.parcour import Parcour, CheckPoint, Etappe
+from aratools.parcour import Etappe
 import drawSvg as draw
+
+from typing import Literal, Sequence
+
+align_mode = Literal["text-bottom", "middle", "text-top"]
 
 
 def etappe_to_svg(etappe: Etappe) -> draw.Drawing:
@@ -24,7 +28,7 @@ def etappe_to_svg(etappe: Etappe) -> draw.Drawing:
     # total height for upper and lower rows
     combined_row_height = round((height - middle_line_height) / 2)
 
-    # TODO generate 'create row of text boxes' function https://stackoverflow.com/a/31522006
+    # TODO generate 'create row of text boxes'
     # lower rows
     low_row_background = draw.Rectangle(0, 0, width, combined_row_height, fill="red")
     # squares to prik with the prikker
@@ -72,18 +76,73 @@ def etappe_to_svg(etappe: Etappe) -> draw.Drawing:
     drawing.saveSvg("test.svg")
 
 
-idx = 5
-kind = "Hardlopen"
-cps = [
-    CheckPoint(idx=1, score=1, hint="Onder de brug", coordinate=(23400, 23523)),
-    CheckPoint(idx=2, score=2, hint="Paaltje", coordinate=(23444, 23523)),
-    CheckPoint(idx=3, score=1, hint="Onder de brug", coordinate=(23400, 23523)),
-    CheckPoint(idx=4, score=2, hint="Paaltje", coordinate=(23444, 23523)),
-    CheckPoint(idx=5, score=1, hint="Onder de brug", coordinate=(23400, 23523)),
-    CheckPoint(idx=6, score=2, hint="Paaltje", coordinate=(23444, 23523)),
-    CheckPoint(idx=7, score=1, hint="Onder de brug", coordinate=(23400, 23523)),
-    CheckPoint(idx=8, score=2, hint="Paaltje", coordinate=(23444, 23523)),
-]
-ref_etappe = Etappe(idx=idx, kind=kind, checkpoints=tuple(cps))
+def get_text_box(
+    x: int,
+    y: int,
+    width: int,
+    height: int,
+    text: str,
+    fontSize: int = 8,
+    align: align_mode = "middle",
+):
+    rect = draw.Rectangle(
+        x, y, width, height, fill="white", stroke="black", stroke_width=1
+    )
+    match align:
+        case "text-bottom":
+            text_y = y + 1
+        case "middle":
+            text_y = y + round(height / 2)
+        case "text-top":
+            text_y = y + height - fontSize
 
-etappe_to_svg(etappe=ref_etappe)
+    text = draw.Text(
+        text,
+        fontSize,
+        x=x + width / 2,
+        y=text_y,
+        text_anchor="middle",
+        dominant_baseline=align,
+    )
+    return draw.Group(children=[rect, text])
+
+
+def get_text_box_row(
+    x: int,
+    y: int,
+    width: int,
+    height: int,
+    n: int,
+    align: align_mode,
+    texts: Sequence[str],
+):
+    return draw.Group(
+        children=[
+            get_text_box(
+                x=x + round(i / n * width),
+                y=y,
+                width=round(width / n),
+                height=height,
+                text=texts[i],
+                align=align,
+            )
+            for i in range(n)
+        ]
+    )
+
+
+# idx = 5
+# kind = "Hardlopen"
+# cps = [
+#     CheckPoint(idx=1, score=1, hint="Onder de brug", coordinate=(23400, 23523)),
+#     CheckPoint(idx=2, score=2, hint="Paaltje", coordinate=(23444, 23523)),
+#     CheckPoint(idx=3, score=1, hint="Onder de brug", coordinate=(23400, 23523)),
+#     CheckPoint(idx=4, score=2, hint="Paaltje", coordinate=(23444, 23523)),
+#     CheckPoint(idx=5, score=1, hint="Onder de brug", coordinate=(23400, 23523)),
+#     CheckPoint(idx=6, score=2, hint="Paaltje", coordinate=(23444, 23523)),
+#     CheckPoint(idx=7, score=1, hint="Onder de brug", coordinate=(23400, 23523)),
+#     CheckPoint(idx=8, score=2, hint="Paaltje", coordinate=(23444, 23523)),
+# ]
+# ref_etappe = Etappe(idx=idx, kind=kind, checkpoints=tuple(cps))
+
+# etappe_to_svg(etappe=ref_etappe)

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+     width="120" height="120" viewBox="0 -120 120 120">
+<defs>
+</defs>
+<g>
+<rect x="10" y="-110" width="100" height="100" fill="white" stroke="black" stroke-width="1" />
+<text x="60.0" y="-102" font-size="8" text-anchor="middle" dominant-baseline="text-top" dy="0em">Foo</text>
+</g>
+</svg>
