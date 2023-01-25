@@ -3,7 +3,7 @@ from pathlib import Path
 import re
 from contextlib import contextmanager
 from collections.abc import Iterator
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 
 
 @contextmanager
@@ -16,7 +16,7 @@ def csvreader(path: str | Path) -> Iterator[list[str]]:
         file_obj.close()
 
 
-class PonsKaart:
+class Parcour:
     def __init__(self, input_dir: str | Path):
         self.input_dir = Path(input_dir)
         assert self.input_dir.exists()

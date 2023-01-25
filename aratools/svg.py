@@ -1,5 +1,6 @@
-from aratools.ponskaart import PonsKaart, CheckPoint, Etappe
+from aratools.parcour import Parcour, CheckPoint, Etappe
 import drawSvg as draw
+
 
 def etappe_to_svg(etappe: Etappe) -> draw.Drawing:
     # a3 is 210 x 148 mm
@@ -10,4 +11,3 @@ def etappe_to_svg(etappe: Etappe) -> draw.Drawing:
     else:
         n_upper = int(len(etappe) / 2) + 1
         n_lower = int(len(etappe) / 2)
-    

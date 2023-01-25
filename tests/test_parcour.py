@@ -1,11 +1,11 @@
-from aratools.ponskaart import PonsKaart, CheckPoint, Etappe
+from aratools.parcour import Parcour, CheckPoint, Etappe
 from pathlib import Path
 
 from csv import writer
 
 
-def test_ponskaart():
-    pons = PonsKaart(input_dir=Path(__file__).absolute().parent / "example_data")
+def test_parcour():
+    pons = Parcour(input_dir=Path(__file__).absolute().parent / "example_data")
     assert len(pons.etappes) == 2
     assert len(pons.etappes[1]) == 5
     assert all(isinstance(cp, CheckPoint) for cp in pons.etappes[1])
