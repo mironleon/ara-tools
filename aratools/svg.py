@@ -1,5 +1,6 @@
 from aratools.parcour import Etappe
 import drawSvg as draw
+import abc
 
 from typing import Literal, Sequence
 
@@ -76,59 +77,105 @@ def etappe_to_svg(etappe: Etappe) -> draw.Drawing:
     drawing.saveSvg("test.svg")
 
 
-def get_text_box(
-    x: int,
-    y: int,
-    width: int,
-    height: int,
-    text: str,
-    fontSize: int = 8,
-    align: align_mode = "middle",
-):
-    rect = draw.Rectangle(
-        x, y, width, height, fill="white", stroke="black", stroke_width=1
-    )
-    match align:
-        case "text-bottom":
-            text_y = y + 1
-        case "middle":
-            text_y = y + round(height / 2)
-        case "text-top":
-            text_y = y + height - fontSize
+class Box(draw.Group):
+    def __init__(
+        self,
+        x: int,
+        y: int,
+        width: int,
+        height: int,
+    ):
+        self.x = x
+        self.y = y
+        self.width = width
+        self.height = height
+        super().__init__(children=self._get_children())
 
-    text = draw.Text(
-        text,
-        fontSize,
-        x=x + width / 2,
-        y=text_y,
-        text_anchor="middle",
-        dominant_baseline=align,
-    )
-    return draw.Group(children=[rect, text])
+    @abc.abstractmethod
+    def _get_children(self) -> list[draw.DrawingBasicElement]:
+        pass
+
+    def to_drawing(self, width: int, height: int) -> draw.Drawing:
+        assert width >= self.x + self.width
+        assert height >= self.y + self.height
+        canvas = draw.Drawing(width=width, height=width)
+        canvas.append(self)
+        return canvas
 
 
-def get_text_box_row(
-    x: int,
-    y: int,
-    width: int,
-    height: int,
-    n: int,
-    align: align_mode,
-    texts: Sequence[str],
-):
-    return draw.Group(
-        children=[
-            get_text_box(
-                x=x + round(i / n * width),
-                y=y,
-                width=round(width / n),
-                height=height,
-                text=texts[i],
-                align=align,
+class TextBox(Box):
+    def __init__(
+        self,
+        x: int,
+        y: int,
+        width: int,
+        height: int,
+        text: str,
+        fontSize: int = 8,
+        align: align_mode = "middle",
+    ):
+        self.text = text
+        self.fontSize = fontSize
+        self.align = align
+        super().__init__(x=x, y=y, width=width, height=height)
+
+    def _get_children(self) -> list[draw.DrawingBasicElement]:
+        self.rect = draw.Rectangle(
+            self.x,
+            self.y,
+            self.width,
+            self.height,
+            fill="white",
+            stroke="black",
+            stroke_width=1,
+        )
+        match self.align:
+            case "text-bottom":
+                text_y = self.y + 1
+            case "middle":
+                text_y = self.y + round(self.height / 2)
+            case "text-top":
+                text_y = self.y + self.height - self.fontSize
+
+        self.text = draw.Text(
+            self.text,
+            self.fontSize,
+            x=self.x + self.width / 2,
+            y=text_y,
+            text_anchor="middle",
+            dominant_baseline=self.align,
+        )
+        return [self.rect, self.text]
+
+
+class TextBoxRow(Box):
+    def __init__(
+        self,
+        x: int,
+        y: int,
+        width: int,
+        height: int,
+        n: int,
+        align: align_mode,
+        texts: Sequence[str],
+    ):
+        self.n = n
+        self.align = align
+        self.texts = texts
+        super().__init__(x=x, y=y, width=width, height=height)
+
+    def _get_children(self) -> list[draw.DrawingBasicElement]:
+        return [
+            TextBox(
+                x=self.x + round(i / self.n * self.width),
+                y=self.y,
+                width=round(self.width / self.n),
+                height=self.height,
+                text=self.texts[i],
+                align=self.align,
             )
-            for i in range(n)
+            for i in range(self.n)
         ]
-    )
 
 
 # idx = 5

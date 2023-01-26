@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+     width="520" height="520" viewBox="0 -520 520 520">
+<defs>
+</defs>
+<g>
+<g>
+<rect x="10" y="-110" width="62" height="100" fill="white" stroke="black" stroke-width="1" />
+<text x="41.0" y="-60" font-size="8" text-anchor="middle" dominant-baseline="middle"><tspan x="41.0" dy="0em">foo_0 </tspan><tspan x="41.0" dy="1em"> foo</tspan></text>
+</g>
+<g>
+<rect x="72" y="-110" width="62" height="100" fill="white" stroke="black" stroke-width="1" />
+<text x="103.0" y="-60" font-size="8" text-anchor="middle" dominant-baseline="middle"><tspan x="103.0" dy="0em">foo_1 </tspan><tspan x="103.0" dy="1em"> foo</tspan></text>
+</g>
+<g>
+<rect x="135" y="-110" width="62" height="100" fill="white" stroke="black" stroke-width="1" />
+<text x="166.0" y="-60" font-size="8" text-anchor="middle" dominant-baseline="middle"><tspan x="166.0" dy="0em">foo_2 </tspan><tspan x="166.0" dy="1em"> foo</tspan></text>
+</g>
+<g>
+<rect x="198" y="-110" width="62" height="100" fill="white" stroke="black" stroke-width="1" />
+<text x="229.0" y="-60" font-size="8" text-anchor="middle" dominant-baseline="middle"><tspan x="229.0" dy="0em">foo_3 </tspan><tspan x="229.0" dy="1em"> foo</tspan></text>
+</g>
+<g>
+<rect x="260" y="-110" width="62" height="100" fill="white" stroke="black" stroke-width="1" />
+<text x="291.0" y="-60" font-size="8" text-anchor="middle" dominant-baseline="middle"><tspan x="291.0" dy="0em">foo_4 </tspan><tspan x="291.0" dy="1em"> foo</tspan></text>
+</g>
+<g>
+<rect x="322" y="-110" width="62" height="100" fill="white" stroke="black" stroke-width="1" />
+<text x="353.0" y="-60" font-size="8" text-anchor="middle" dominant-baseline="middle"><tspan x="353.0" dy="0em">foo_5 </tspan><tspan x="353.0" dy="1em"> foo</tspan></text>
+</g>
+<g>
+<rect x="385" y="-110" width="62" height="100" fill="white" stroke="black" stroke-width="1" />
+<text x="416.0" y="-60" font-size="8" text-anchor="middle" dominant-baseline="middle"><tspan x="416.0" dy="0em">foo_6 </tspan><tspan x="416.0" dy="1em"> foo</tspan></text>
+</g>
+<g>
+<rect x="448" y="-110" width="62" height="100" fill="white" stroke="black" stroke-width="1" />
+<text x="479.0" y="-60" font-size="8" text-anchor="middle" dominant-baseline="middle"><tspan x="479.0" dy="0em">foo_7 </tspan><tspan x="479.0" dy="1em"> foo</tspan></text>
+</g>
+</g>
+</svg>
