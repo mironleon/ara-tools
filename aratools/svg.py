@@ -1,4 +1,4 @@
-from aratools.parcour import Etappe
+from aratools.parcour import Etappe, CheckPoint
 import drawSvg as draw
 import abc
 
@@ -19,61 +19,52 @@ def etappe_to_svg(etappe: Etappe) -> draw.Drawing:
         n_upper = int(len(etappe) / 2) + 1
         n_lower = int(len(etappe) / 2)
 
-    # squares for marking with prikker
-    square_width_upper = round(width / n_upper)
-    square_width_lower = round(width / n_lower)
-
     # middle line contains etappe number, etappe kind and team name
     middle_line_height = round(height / 15)
 
     # total height for upper and lower rows
     combined_row_height = round((height - middle_line_height) / 2)
 
-    # TODO generate 'create row of text boxes'
-    # lower rows
-    low_row_background = draw.Rectangle(0, 0, width, combined_row_height, fill="red")
-    # squares to prik with the prikker
-    prik_squares = [
-        draw.Rectangle(
-            x=round(i * square_width_lower),
-            y=0,
-            width=square_width_lower,
-            height=round(combined_row_height / 3),
-            fill="white",
-            stroke_width=1,
-            stroke="black",
-        )
-        for i in range(n_lower)
-    ]
-    prik_text = [
-        draw.Text(
-            x=round((i + 0.3) * square_width_lower),
-            y=0.8 * round(combined_row_height / 3),
-            text="Prik Hier",
-            fontSize=6,
-        )
-        for i in range(n_lower)
-    ]
-    #
-    drawing.extend((low_row_background, *prik_squares, *prik_text))
-    # middle row
-    drawing.append(
-        draw.Rectangle(0, combined_row_height, width, middle_line_height, fill="yellow")
+    lower_prik_row = TextBoxRow(
+        x=0,
+        y=0,
+        width=width,
+        height=round(0.3 * combined_row_height),
+        n=n_lower,
+        align="text-top",
+        texts=["prik hier"] * n_lower,
     )
-    etappe_name = draw.Text(
-        text=f"Etappe {etappe.idx}", fontSize=8, x=0, y=round(height / 2)
+    drawing.append(lower_prik_row)
+    lower_cp_idx_row = TextBoxRow(
+        x=0,
+        y=lower_prik_row.height,
+        width=width,
+        height=round(0.1 * combined_row_height),
+        n=n_lower,
+        align="text-bottom",
+        texts=[f"{etappe.idx}.{i}" for i in range(1, len(etappe) + 1)[-n_lower:]],
     )
-    etappe_kind = draw.Text(text=etappe.kind, fontSize=8, x="30%", y=round(height / 2))
-    team_name = draw.Text(
-        text="1 - Team BlaBla", fontSize=8, x="60%", y=round(height / 2)
+    drawing.append(lower_cp_idx_row)
+    lower_score_row = TextBoxRow(
+        x=0,
+        y=lower_prik_row.height + lower_cp_idx_row.height,
+        width=width,
+        height=round(0.1 * combined_row_height),
+        n=n_lower,
+        align="text-bottom",
+        texts=[f"{cp.score} p" for cp in etappe[-n_lower:]],
     )
-    drawing.extend((etappe_name, etappe_kind, team_name))
-    # upper rows
-    drawing.append(
-        draw.Rectangle(
-            0, height - combined_row_height, width, combined_row_height, fill="blue"
-        )
+    drawing.append(lower_score_row)
+    lower_hint_row = TextBoxRow(
+        x=0,
+        y=lower_prik_row.height + lower_cp_idx_row.height + lower_score_row.height,
+        width=width,
+        height=round(0.2 * combined_row_height),
+        n=n_lower,
+        align="text-bottom",
+        texts=[f"{cp.hint}" for cp in etappe[-n_lower:]],
     )
+    drawing.append(lower_hint_row)
     drawing.saveSvg("test.svg")
 
 
@@ -178,18 +169,18 @@ class TextBoxRow(Box):
         ]
 
 
-# idx = 5
-# kind = "Hardlopen"
-# cps = [
-#     CheckPoint(idx=1, score=1, hint="Onder de brug", coordinate=(23400, 23523)),
-#     CheckPoint(idx=2, score=2, hint="Paaltje", coordinate=(23444, 23523)),
-#     CheckPoint(idx=3, score=1, hint="Onder de brug", coordinate=(23400, 23523)),
-#     CheckPoint(idx=4, score=2, hint="Paaltje", coordinate=(23444, 23523)),
-#     CheckPoint(idx=5, score=1, hint="Onder de brug", coordinate=(23400, 23523)),
-#     CheckPoint(idx=6, score=2, hint="Paaltje", coordinate=(23444, 23523)),
-#     CheckPoint(idx=7, score=1, hint="Onder de brug", coordinate=(23400, 23523)),
-#     CheckPoint(idx=8, score=2, hint="Paaltje", coordinate=(23444, 23523)),
-# ]
-# ref_etappe = Etappe(idx=idx, kind=kind, checkpoints=tuple(cps))
+idx = 5
+kind = "Hardlopen"
+cps = [
+    CheckPoint(idx=1, score=1, hint="Onder de brug", coordinate=(23400, 23523)),
+    CheckPoint(idx=2, score=2, hint="Paaltje", coordinate=(23444, 23523)),
+    CheckPoint(idx=3, score=1, hint="Onder de brug", coordinate=(23400, 23523)),
+    CheckPoint(idx=4, score=2, hint="Paaltje", coordinate=(23444, 23523)),
+    CheckPoint(idx=5, score=1, hint="Onder de brug", coordinate=(23400, 23523)),
+    CheckPoint(idx=6, score=2, hint="Paaltje", coordinate=(23444, 23523)),
+    CheckPoint(idx=7, score=1, hint="Onder de brug", coordinate=(23400, 23523)),
+    CheckPoint(idx=8, score=2, hint="Paaltje", coordinate=(23444, 23523)),
+]
+ref_etappe = Etappe(idx=idx, kind=kind, checkpoints=tuple(cps))
 
-# etappe_to_svg(etappe=ref_etappe)
+etappe_to_svg(etappe=ref_etappe)

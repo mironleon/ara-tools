@@ -97,3 +97,6 @@ class Etappe:
 
     def __iter__(self):
         return iter(self.checkpoints)
+
+    def __getitem__(self, key):
+        return self.checkpoints[key]
