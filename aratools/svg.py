@@ -6,6 +6,8 @@ from typing import Literal, Sequence
 
 align_mode = Literal["text-bottom", "middle", "text-top"]
 
+# TODO: thinner lines, support for 'hidden' cps (do not show coordinate), text wrapping, bold styling
+
 
 def etappe_to_svg(etappe: Etappe, team_name: str = "foofooteam") -> draw.Drawing:
     # a3 is 210 x 148 mm
@@ -24,74 +26,55 @@ def etappe_to_svg(etappe: Etappe, team_name: str = "foofooteam") -> draw.Drawing
 
     # total height for upper and lower rows
     combined_row_height = round((height - middle_line_height) / 2)
+    h_factors = [0.3, 0.1, 0.1, 0.2, 0.3]
+    heights = (
+        [round(factor * combined_row_height) for factor in h_factors]
+        + [middle_line_height]
+        + [round(factor * combined_row_height) for factor in reversed(h_factors)]
+    )
+    n_boxes = [n_lower] * 5 + [3] + [n_upper] * 5
+    alignments = [
+        "text-top",
+        "text-bottom",
+        "text-bottom",
+        "text-bottom",
+        "text-top",
+        "text-top",
+        "text-top",
+        "text-bottom",
+        "text-bottom",
+        "text-bottom",
+        "text-top",
+    ]
+    text_lists = [
+        ["prik hier"] * n_lower,
+        [f"{etappe.idx}.{i}" for i in range(1, len(etappe) + 1)[-n_lower:]],
+        [f"{cp.score} p" for cp in etappe[-n_lower:]],
+        [f"{cp.hint}" for cp in etappe[-n_lower:]],
+        ["\n".join(str(c) for c in cp.coordinate) for cp in etappe[-n_lower:]],
+        [f"Etappe {etappe.idx}", etappe.kind, team_name],
+        ["\n".join(str(c) for c in cp.coordinate) for cp in etappe[:n_upper]],
+        [f"{cp.hint}" for cp in etappe[:n_upper]],
+        [f"{cp.score} p" for cp in etappe[:n_upper]],
+        [f"{etappe.idx}.{i}" for i in range(1, len(etappe) + 1)[:n_upper]],
+        ["prik hier"] * n_upper,
+    ]
+    for i, (row_height, n, align, texts) in enumerate(
+        zip(heights, n_boxes, alignments, text_lists, strict=True)
+    ):
+        y = int(sum(heights[:i]))
+        drawing.append(
+            TextBoxRow(
+                x=0,
+                y=y,
+                width=width,
+                height=row_height,
+                n=n,
+                align=align,
+                texts=texts,
+            )
+        )
 
-    lower_prik_row = TextBoxRow(
-        x=0,
-        y=0,
-        width=width,
-        height=round(0.3 * combined_row_height),
-        n=n_lower,
-        align="text-top",
-        texts=["prik hier"] * n_lower,
-    )
-    drawing.append(lower_prik_row)
-    lower_cp_idx_row = TextBoxRow(
-        x=0,
-        y=lower_prik_row.height,
-        width=width,
-        height=round(0.1 * combined_row_height),
-        n=n_lower,
-        align="text-bottom",
-        texts=[f"{etappe.idx}.{i}" for i in range(1, len(etappe) + 1)[-n_lower:]],
-    )
-    drawing.append(lower_cp_idx_row)
-    lower_score_row = TextBoxRow(
-        x=0,
-        y=lower_prik_row.height + lower_cp_idx_row.height,
-        width=width,
-        height=round(0.1 * combined_row_height),
-        n=n_lower,
-        align="text-bottom",
-        texts=[f"{cp.score} p" for cp in etappe[-n_lower:]],
-    )
-    drawing.append(lower_score_row)
-    lower_hint_row = TextBoxRow(
-        x=0,
-        y=lower_prik_row.height + lower_cp_idx_row.height + lower_score_row.height,
-        width=width,
-        height=round(0.2 * combined_row_height),
-        n=n_lower,
-        align="text-bottom",
-        texts=[f"{cp.hint}" for cp in etappe[-n_lower:]],
-    )
-    drawing.append(lower_hint_row)
-    lower_coordinate_row = TextBoxRow(
-        x=0,
-        y=lower_prik_row.height
-        + lower_cp_idx_row.height
-        + lower_score_row.height
-        + lower_hint_row.height,
-        width=width,
-        height=round(0.3 * combined_row_height),
-        n=n_lower,
-        align="text-top",
-        texts=["\n".join(str(c) for c in cp.coordinate) for cp in etappe[-n_lower:]],
-    )
-    drawing.append(lower_coordinate_row)
-    middle_row = TextBoxRow(
-        x=0,
-        y=lower_prik_row.height
-        + lower_cp_idx_row.height
-        + lower_score_row.height
-        + lower_hint_row.height
-        + lower_coordinate_row.height,
-        width=width,
-        height=middle_line_height,
-        n=3,
-        align="text-top",
-        texts=[f"Etappe {etappe.idx}", etappe.kind, team_name],
-    )
-    drawing.append(middle_row)
     drawing.saveSvg("test.svg")
 
 
@@ -199,13 +182,13 @@ class TextBoxRow(Box):
 idx = 5
 kind = "Hardlopen"
 cps = [
-    CheckPoint(idx=1, score=1, hint="Onder de brug", coordinate=(23400, 23523)),
+    CheckPoint(idx=1, score=1, hint="hANS de brug", coordinate=(23400, 23523)),
     CheckPoint(idx=2, score=2, hint="Paaltje", coordinate=(23444, 23523)),
-    CheckPoint(idx=3, score=1, hint="Onder de brug", coordinate=(23400, 23523)),
+    CheckPoint(idx=3, score=1, hint="Onder de brug", coordinate=(23406, 23523)),
     CheckPoint(idx=4, score=2, hint="Paaltje", coordinate=(23444, 23523)),
-    CheckPoint(idx=5, score=1, hint="Onder de brug", coordinate=(23400, 23523)),
+    CheckPoint(idx=5, score=1, hint="Onder de brug", coordinate=(27400, 23523)),
     CheckPoint(idx=6, score=2, hint="Paaltje", coordinate=(23444, 23523)),
-    CheckPoint(idx=7, score=1, hint="Onder de brug", coordinate=(23400, 23523)),
+    CheckPoint(idx=7, score=1, hint="Onder de brug", coordinate=(23400, 23723)),
     CheckPoint(idx=8, score=2, hint="Paaltje", coordinate=(23444, 23523)),
 ]
 ref_etappe = Etappe(idx=idx, kind=kind, checkpoints=tuple(cps))
