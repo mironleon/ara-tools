@@ -2,7 +2,7 @@ import csv
 from pathlib import Path
 import re
 from contextlib import contextmanager
-from collections.abc import Iterator
+from collections.abc import Iterator, Iterable, Collection
 from dataclasses import dataclass
 
 
@@ -59,7 +59,7 @@ class CheckPoint:
 
 
 @dataclass(frozen=True)
-class Etappe:
+class Etappe(Collection[CheckPoint]):
     idx: int
     kind: str  # fietsen, kano, run-bike
     checkpoints: tuple[CheckPoint, ...]
@@ -86,17 +86,20 @@ class Etappe:
             )
         return cls(idx=idx, kind=kind, checkpoints=cps)
 
-    def __lt__(self, other):
-        return self.idx < other
+    def __lt__(self, other) -> bool:
+        return bool(self.idx < other)
 
-    def __gt__(self, other):
-        return self.idx > other
+    def __gt__(self, other) -> bool:
+        return bool(self.idx > other)
 
-    def __len__(self):
+    def __len__(self) -> int:
         return len(self.checkpoints)
 
-    def __iter__(self):
+    def __iter__(self) -> Iterator[CheckPoint]:
         return iter(self.checkpoints)
 
-    def __getitem__(self, key):
+    def __getitem__(self, key) -> CheckPoint:
         return self.checkpoints[key]
+
+    def __contains__(self, __x: object) -> bool:
+        return bool(__x in self.checkpoints)

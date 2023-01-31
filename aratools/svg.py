@@ -7,7 +7,7 @@ from typing import Literal, Sequence
 align_mode = Literal["text-bottom", "middle", "text-top"]
 
 
-def etappe_to_svg(etappe: Etappe) -> draw.Drawing:
+def etappe_to_svg(etappe: Etappe, team_name: str = "foofooteam") -> draw.Drawing:
     # a3 is 210 x 148 mm
     width = 210
     height = 148
@@ -65,6 +65,33 @@ def etappe_to_svg(etappe: Etappe) -> draw.Drawing:
         texts=[f"{cp.hint}" for cp in etappe[-n_lower:]],
     )
     drawing.append(lower_hint_row)
+    lower_coordinate_row = TextBoxRow(
+        x=0,
+        y=lower_prik_row.height
+        + lower_cp_idx_row.height
+        + lower_score_row.height
+        + lower_hint_row.height,
+        width=width,
+        height=round(0.3 * combined_row_height),
+        n=n_lower,
+        align="text-top",
+        texts=["\n".join(str(c) for c in cp.coordinate) for cp in etappe[-n_lower:]],
+    )
+    drawing.append(lower_coordinate_row)
+    middle_row = TextBoxRow(
+        x=0,
+        y=lower_prik_row.height
+        + lower_cp_idx_row.height
+        + lower_score_row.height
+        + lower_hint_row.height
+        + lower_coordinate_row.height,
+        width=width,
+        height=middle_line_height,
+        n=3,
+        align="text-top",
+        texts=[f"Etappe {etappe.idx}", etappe.kind, team_name],
+    )
+    drawing.append(middle_row)
     drawing.saveSvg("test.svg")
 
 

@@ -75,4 +75,36 @@
 <text x="184.0" y="-36" font-size="8" text-anchor="middle" dominant-baseline="text-bottom" dy="0em">Paaltje</text>
 </g>
 </g>
+<g>
+<g>
+<rect x="0" y="-70" width="52" height="21" fill="white" stroke="black" stroke-width="1" />
+<text x="26.0" y="-62" font-size="8" text-anchor="middle" dominant-baseline="text-top"><tspan x="26.0" dy="0em">23400</tspan><tspan x="26.0" dy="1em">23523</tspan></text>
+</g>
+<g>
+<rect x="52" y="-70" width="52" height="21" fill="white" stroke="black" stroke-width="1" />
+<text x="78.0" y="-62" font-size="8" text-anchor="middle" dominant-baseline="text-top"><tspan x="78.0" dy="0em">23444</tspan><tspan x="78.0" dy="1em">23523</tspan></text>
+</g>
+<g>
+<rect x="105" y="-70" width="52" height="21" fill="white" stroke="black" stroke-width="1" />
+<text x="131.0" y="-62" font-size="8" text-anchor="middle" dominant-baseline="text-top"><tspan x="131.0" dy="0em">23400</tspan><tspan x="131.0" dy="1em">23523</tspan></text>
+</g>
+<g>
+<rect x="158" y="-70" width="52" height="21" fill="white" stroke="black" stroke-width="1" />
+<text x="184.0" y="-62" font-size="8" text-anchor="middle" dominant-baseline="text-top"><tspan x="184.0" dy="0em">23444</tspan><tspan x="184.0" dy="1em">23523</tspan></text>
+</g>
+</g>
+<g>
+<g>
+<rect x="0" y="-80" width="70" height="10" fill="white" stroke="black" stroke-width="1" />
+<text x="35.0" y="-72" font-size="8" text-anchor="middle" dominant-baseline="text-top" dy="0em">Etappe 5</text>
+</g>
+<g>
+<rect x="70" y="-80" width="70" height="10" fill="white" stroke="black" stroke-width="1" />
+<text x="105.0" y="-72" font-size="8" text-anchor="middle" dominant-baseline="text-top" dy="0em">Hardlopen</text>
+</g>
+<g>
+<rect x="140" y="-80" width="70" height="10" fill="white" stroke="black" stroke-width="1" />
+<text x="175.0" y="-72" font-size="8" text-anchor="middle" dominant-baseline="text-top" dy="0em">foofooteam</text>
+</g>
+</g>
 </svg>
