@@ -177,6 +177,7 @@ class TextBox(Box):
             y=y,
             text_anchor="middle",
             dominant_baseline=baseline,
+            font_family="monospace",
         )
         return [self.rect, self.text]
 
@@ -227,6 +228,13 @@ class TextBoxRow(Box):
 
 # etappe_to_svg(etappe=ref_etappe)
 
-tbox = TextBox(x=10, y=10, width=100, height=100, text="Hello World", align="bottom")
-tbox.to_drawing(width=200, height=200).saveSvg("textbox.svg")
+# width per font size 5.7692
+# fit exactly width 200
+fsize = 10
+width = 300
+text = "W" * round(width / (0.62 * fsize))
+tbox = TextBox(
+    x=10, y=10, width=width, height=100, text=text, align="bottom", fontSize=fsize
+)
+tbox.to_drawing(width=width * 1.2, height=200).saveSvg("textbox.svg")
 subprocess.run("open textbox.svg", shell=True)
