@@ -1,19 +1,44 @@
 from aratools.parcour import Etappe, CheckPoint
 import drawSvg as draw
 import abc
+import subprocess
 
 from typing import Literal, Sequence
 
-align_mode = Literal["text-bottom", "middle", "text-top"]
+align_mode = Literal["bottom", "middle", "top"]
 
 # TODO: thinner lines, support for 'hidden' cps (do not show coordinate), text wrapping, bold styling
+
+
+# create a svg tag for grouping elements in and inheriting width and height attributes from
+class SVG(draw.DrawingParentElement):
+    TAG_NAME = "svg"
+
+
+class DRAWING(draw.Drawing):
+    def __init__(
+        self,
+        width,
+        height,
+        origin=(0, 0),
+        idPrefix="d",
+        displayInline=True,
+        **svgArgs,
+    ):
+        super().__init__(width, height, origin, idPrefix, displayInline, **svgArgs)
+        if origin == "center":
+            self.viewBox = (-width / 2, -height / 2, width, height)
+        else:
+            origin = tuple(origin)
+            assert len(origin) == 2
+            self.viewBox = origin + (width, height)
 
 
 def etappe_to_svg(etappe: Etappe, team_name: str = "foofooteam") -> draw.Drawing:
     # a3 is 210 x 148 mm
     width = 210
     height = 148
-    drawing = draw.Drawing(width=width, height=height)
+    drawing = DRAWING(width=width, height=height)
     if len(etappe) % 2 == 0:
         n_upper = int(len(etappe) / 2)
         n_lower = n_upper
@@ -78,7 +103,7 @@ def etappe_to_svg(etappe: Etappe, team_name: str = "foofooteam") -> draw.Drawing
     drawing.saveSvg("test.svg")
 
 
-class Box(draw.Group):
+class Box(SVG):
     def __init__(
         self,
         x: int,
@@ -90,7 +115,9 @@ class Box(draw.Group):
         self.y = y
         self.width = width
         self.height = height
-        super().__init__(children=self._get_children())
+        super().__init__(
+            x=x, y=y, width=width, height=height, children=self._get_children()
+        )
 
     @abc.abstractmethod
     def _get_children(self) -> list[draw.DrawingBasicElement]:
@@ -99,8 +126,9 @@ class Box(draw.Group):
     def to_drawing(self, width: int, height: int) -> draw.Drawing:
         assert width >= self.x + self.width
         assert height >= self.y + self.height
-        canvas = draw.Drawing(width=width, height=width)
+        canvas = DRAWING(width=width, height=width)
         canvas.append(self)
+        print(canvas.viewBox)
         return canvas
 
 
@@ -122,29 +150,33 @@ class TextBox(Box):
 
     def _get_children(self) -> list[draw.DrawingBasicElement]:
         self.rect = draw.Rectangle(
-            self.x,
-            self.y,
-            self.width,
-            self.height,
+            x=0,
+            y=0,
+            width="100%",
+            height="100%",
             fill="white",
             stroke="black",
             stroke_width=1,
         )
         match self.align:
-            case "text-bottom":
-                text_y = self.y + 1
+            case "bottom":
+                y = "95%"
+                baseline = "auto"
             case "middle":
-                text_y = self.y + round(self.height / 2)
-            case "text-top":
-                text_y = self.y + self.height - self.fontSize
-
+                y = "50%"
+                baseline = "middle"
+            case "top":
+                y = "10%"
+                baseline = "hanging"
+            case _:
+                raise Exception(f"Unknown align mode: {self.align}")
         self.text = draw.Text(
-            self.text,
-            self.fontSize,
-            x=self.x + self.width / 2,
-            y=text_y,
+            text=self.text,
+            fontSize=self.fontSize,
+            x="50%",
+            y=y,
             text_anchor="middle",
-            dominant_baseline=self.align,
+            dominant_baseline=baseline,
         )
         return [self.rect, self.text]
 
@@ -179,18 +211,22 @@ class TextBoxRow(Box):
         ]
 
 
-idx = 5
-kind = "Hardlopen"
-cps = [
-    CheckPoint(idx=1, score=1, hint="hANS de brug", coordinate=(23400, 23523)),
-    CheckPoint(idx=2, score=2, hint="Paaltje", coordinate=(23444, 23523)),
-    CheckPoint(idx=3, score=1, hint="Onder de brug", coordinate=(23406, 23523)),
-    CheckPoint(idx=4, score=2, hint="Paaltje", coordinate=(23444, 23523)),
-    CheckPoint(idx=5, score=1, hint="Onder de brug", coordinate=(27400, 23523)),
-    CheckPoint(idx=6, score=2, hint="Paaltje", coordinate=(23444, 23523)),
-    CheckPoint(idx=7, score=1, hint="Onder de brug", coordinate=(23400, 23723)),
-    CheckPoint(idx=8, score=2, hint="Paaltje", coordinate=(23444, 23523)),
-]
-ref_etappe = Etappe(idx=idx, kind=kind, checkpoints=tuple(cps))
+# idx = 5
+# kind = "Hardlopen"
+# cps = [
+#     CheckPoint(idx=1, score=1, hint="hANS de brug", coordinate=(23400, 23523)),
+#     CheckPoint(idx=2, score=2, hint="Paaltje", coordinate=(23444, 23523)),
+#     CheckPoint(idx=3, score=1, hint="Onder de brug", coordinate=(23406, 23523)),
+#     CheckPoint(idx=4, score=2, hint="Paaltje", coordinate=(23444, 23523)),
+#     CheckPoint(idx=5, score=1, hint="Onder de brug", coordinate=(27400, 23523)),
+#     CheckPoint(idx=6, score=2, hint="Paaltje", coordinate=(23444, 23523)),
+#     CheckPoint(idx=7, score=1, hint="Onder de brug", coordinate=(23400, 23723)),
+#     CheckPoint(idx=8, score=2, hint="Paaltje", coordinate=(23444, 23523)),
+# ]
+# ref_etappe = Etappe(idx=idx, kind=kind, checkpoints=tuple(cps))
 
-etappe_to_svg(etappe=ref_etappe)
+# etappe_to_svg(etappe=ref_etappe)
+
+tbox = TextBox(x=10, y=10, width=100, height=100, text="Hello World", align="bottom")
+tbox.to_drawing(width=200, height=200).saveSvg("textbox.svg")
+subprocess.run("open textbox.svg", shell=True)
