@@ -75,7 +75,7 @@ def etappe_to_svg(etappe: Etappe, team_name: str = "foofooteam") -> draw.Drawing
         "top",
     ]
     text_lists = [
-        ["prik hier1"] * n_lower,
+        ["prik hier"] * n_lower,
         [f"{etappe.idx}.{i}" for i in range(1, len(etappe) + 1)[-n_lower:]],
         [f"{cp.score} p" for cp in etappe[-n_lower:]],
         [f"{cp.hint}" for cp in etappe[-n_lower:]],
