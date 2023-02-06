@@ -1,7 +1,7 @@
-from aratools.parcour import Parcour, CheckPoint, Etappe
+from csv import writer
 from pathlib import Path
 
-from csv import writer
+from aratools.parcour import CheckPoint, Etappe, Parcour
 
 
 def test_parcour():

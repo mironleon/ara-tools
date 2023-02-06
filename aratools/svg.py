@@ -1,16 +1,19 @@
-from aratools.parcour import Etappe, CheckPoint
-import drawSvg as draw
 import abc
 import subprocess
+from collections.abc import Sequence
+from typing import Literal
 
-from typing import Literal, Sequence
+import drawSvg as draw
+
+from aratools.formatting import format_text
+from aratools.parcour import CheckPoint, Etappe
 
 align_mode = Literal["bottom", "middle", "top"]
 
-# TODO: thinner lines, support for 'hidden' cps (do not show coordinate), text wrapping, bold styling
+# TODO: thinner lines, support for 'hidden' cps (do not show coordinate), bold styling
 
 
-# create a svg tag for grouping elements in and inheriting width and height attributes from
+# svg tag for grouping elements in and inheriting width and height attributes from
 class SVG(draw.DrawingParentElement):
     TAG_NAME = "svg"
 
@@ -58,21 +61,21 @@ def etappe_to_svg(etappe: Etappe, team_name: str = "foofooteam") -> draw.Drawing
         + [round(factor * combined_row_height) for factor in reversed(h_factors)]
     )
     n_boxes = [n_lower] * 5 + [3] + [n_upper] * 5
-    alignments = [
-        "text-top",
-        "text-bottom",
-        "text-bottom",
-        "text-bottom",
-        "text-top",
-        "text-top",
-        "text-top",
-        "text-bottom",
-        "text-bottom",
-        "text-bottom",
-        "text-top",
+    alignments: list[align_mode] = [
+        "top",
+        "bottom",
+        "bottom",
+        "bottom",
+        "top",
+        "top",
+        "top",
+        "bottom",
+        "bottom",
+        "bottom",
+        "top",
     ]
     text_lists = [
-        ["prik hier"] * n_lower,
+        ["prik hier1"] * n_lower,
         [f"{etappe.idx}.{i}" for i in range(1, len(etappe) + 1)[-n_lower:]],
         [f"{cp.score} p" for cp in etappe[-n_lower:]],
         [f"{cp.hint}" for cp in etappe[-n_lower:]],
@@ -166,12 +169,12 @@ class TextBox(Box):
                 y = "50%"
                 baseline = "middle"
             case "top":
-                y = "10%"
+                y = "10"
                 baseline = "hanging"
             case _:
                 raise Exception(f"Unknown align mode: {self.align}")
         self.text = draw.Text(
-            text=self.text,
+            text=format_text(self.width, self.text, self.fontSize),
             fontSize=self.fontSize,
             x="50%",
             y=y,
@@ -212,29 +215,20 @@ class TextBoxRow(Box):
         ]
 
 
-# idx = 5
-# kind = "Hardlopen"
-# cps = [
-#     CheckPoint(idx=1, score=1, hint="hANS de brug", coordinate=(23400, 23523)),
-#     CheckPoint(idx=2, score=2, hint="Paaltje", coordinate=(23444, 23523)),
-#     CheckPoint(idx=3, score=1, hint="Onder de brug", coordinate=(23406, 23523)),
-#     CheckPoint(idx=4, score=2, hint="Paaltje", coordinate=(23444, 23523)),
-#     CheckPoint(idx=5, score=1, hint="Onder de brug", coordinate=(27400, 23523)),
-#     CheckPoint(idx=6, score=2, hint="Paaltje", coordinate=(23444, 23523)),
-#     CheckPoint(idx=7, score=1, hint="Onder de brug", coordinate=(23400, 23723)),
-#     CheckPoint(idx=8, score=2, hint="Paaltje", coordinate=(23444, 23523)),
-# ]
-# ref_etappe = Etappe(idx=idx, kind=kind, checkpoints=tuple(cps))
+idx = 5
+kind = "Hardlopen"
+cps = [
+    CheckPoint(idx=1, score=1, hint="hANS de brug", coordinate=(23400, 23523)),
+    CheckPoint(idx=2, score=2, hint="Paaltje", coordinate=(23444, 23523)),
+    CheckPoint(idx=3, score=1, hint="Onder de brug", coordinate=(23406, 23523)),
+    CheckPoint(idx=4, score=2, hint="Paaltje", coordinate=(23444, 23523)),
+    CheckPoint(idx=5, score=1, hint="Onder de brug", coordinate=(27400, 23523)),
+    CheckPoint(idx=6, score=2, hint="Paaltje", coordinate=(23444, 23523)),
+    CheckPoint(idx=7, score=1, hint="Onder de brug", coordinate=(23400, 23723)),
+    CheckPoint(idx=8, score=2, hint="Paaltje", coordinate=(23444, 23523)),
+]
+ref_etappe = Etappe(idx=idx, kind=kind, checkpoints=tuple(cps))
 
-# etappe_to_svg(etappe=ref_etappe)
+etappe_to_svg(etappe=ref_etappe)
 
-# width per font size 5.7692
-# fit exactly width 200
-fsize = 10
-width = 300
-text = "W" * round(width / (0.62 * fsize))
-tbox = TextBox(
-    x=10, y=10, width=width, height=100, text=text, align="bottom", fontSize=fsize
-)
-tbox.to_drawing(width=width * 1.2, height=200).saveSvg("textbox.svg")
-subprocess.run("open textbox.svg", shell=True)
+subprocess.run("open test.svg", shell=True)

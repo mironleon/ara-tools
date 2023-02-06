@@ -1,9 +1,9 @@
 import csv
-from pathlib import Path
 import re
+from collections.abc import Collection, Iterable, Iterator
 from contextlib import contextmanager
-from collections.abc import Iterator, Iterable, Collection
 from dataclasses import dataclass
+from pathlib import Path
 
 
 @contextmanager
