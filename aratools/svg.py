@@ -61,44 +61,46 @@ def etappe_to_svg(etappe: Etappe, team_name: str = "foofooteam") -> draw.Drawing
         + [round(factor * combined_row_height) for factor in reversed(h_factors)]
     )
     n_boxes = [n_lower] * 5 + [3] + [n_upper] * 5
-    alignments: list[align_mode] = [
-        "top",
-        "bottom",
-        "bottom",
-        "bottom",
-        "top",
-        "top",
-        "top",
-        "bottom",
-        "bottom",
-        "bottom",
-        "top",
-    ]
+    # alignments: list[align_mode] = [
+    #     "top",
+    #     "bottom",
+    #     "bottom",
+    #     "bottom",
+    #     "top",
+    #     "top",
+    #     "top",
+    #     "bottom",
+    #     "bottom",
+    #     "bottom",
+    #     "top",
+    # ]
     text_lists = [
-        ["prik hier"] * n_lower,
-        [f"{etappe.idx}.{i}" for i in range(1, len(etappe) + 1)[-n_lower:]],
-        [f"{cp.score} p" for cp in etappe[-n_lower:]],
-        [f"{cp.hint}" for cp in etappe[-n_lower:]],
-        ["\n".join(str(c) for c in cp.coordinate) for cp in etappe[-n_lower:]],
-        [f"Etappe {etappe.idx}", etappe.kind, team_name],
-        ["\n".join(str(c) for c in cp.coordinate) for cp in etappe[:n_upper]],
-        [f"{cp.hint}" for cp in etappe[:n_upper]],
-        [f"{cp.score} p" for cp in etappe[:n_upper]],
-        [f"{etappe.idx}.{i}" for i in range(1, len(etappe) + 1)[:n_upper]],
         ["prik hier"] * n_upper,
+        [f"{etappe.idx}.{i}" for i in range(1, len(etappe) + 1)[:n_upper]],
+        [f"{cp.score} p" for cp in etappe[:n_upper]],
+        [f"{cp.hint}" for cp in etappe[:n_upper]],
+        ["\n".join(str(c) for c in cp.coordinate) for cp in etappe[:n_upper]],
+        [f"Etappe {etappe.idx}", etappe.kind, team_name],
+        ["\n".join(str(c) for c in cp.coordinate) for cp in etappe[-n_lower:]],
+        [f"{cp.hint}" for cp in etappe[-n_lower:]],
+        [f"{cp.score} p" for cp in etappe[-n_lower:]],
+        [f"{etappe.idx}.{i}" for i in range(1, len(etappe) + 1)[-n_lower:]],
+        ["prik hier"] * n_lower,
     ]
-    for i, (row_height, n, align, texts) in enumerate(
-        zip(heights, n_boxes, alignments, text_lists, strict=True)
+    for i, (row_height, n, texts) in enumerate(
+        zip(heights, n_boxes, text_lists, strict=True)
     ):
-        y = int(sum(heights[:i]))
+        # if i > 3:
+        #     break
+        # y = int(sum(heights[:i]))
         drawing.append(
             TextBoxRow(
                 x=0,
-                y=y,
+                y=f"{round(100 * i / 11)}%",
                 width=width,
-                height=row_height,
+                height=f"{round(100 / 11)}%",
                 n=n,
-                align=align,
+                align="top",
                 texts=texts,
             )
         )
@@ -195,40 +197,44 @@ class TextBoxRow(Box):
         n: int,
         align: align_mode,
         texts: Sequence[str],
+        fontsize: int = 4,
     ):
         self.n = n
         self.align = align
         self.texts = texts
+        self.fontsize = fontsize
+        assert len(self.texts) == n
         super().__init__(x=x, y=y, width=width, height=height)
 
     def _get_children(self) -> list[draw.DrawingBasicElement]:
         return [
             TextBox(
-                x=self.x + round(i / self.n * self.width),
-                y=self.y,
+                x=f"{100 * i / self.n}%",
+                y=0,
                 width=round(self.width / self.n),
-                height=self.height,
+                height="100%",
                 text=self.texts[i],
                 align=self.align,
+                fontSize=self.fontsize,
             )
             for i in range(self.n)
         ]
 
 
-# idx = 5
-# kind = "Hardlopen"
-# cps = [
-#     CheckPoint(idx=1, score=1, hint="hANS de brug", coordinate=(23400, 23523)),
-#     CheckPoint(idx=2, score=2, hint="Paaltje", coordinate=(23444, 23523)),
-#     CheckPoint(idx=3, score=1, hint="Onder de brug", coordinate=(23406, 23523)),
-#     CheckPoint(idx=4, score=2, hint="Paaltje", coordinate=(23444, 23523)),
-#     CheckPoint(idx=5, score=1, hint="Onder de brug", coordinate=(27400, 23523)),
-#     CheckPoint(idx=6, score=2, hint="Paaltje", coordinate=(23444, 23523)),
-#     CheckPoint(idx=7, score=1, hint="Onder de brug", coordinate=(23400, 23723)),
-#     CheckPoint(idx=8, score=2, hint="Paaltje", coordinate=(23444, 23523)),
-# ]
-# ref_etappe = Etappe(idx=idx, kind=kind, checkpoints=tuple(cps))
+idx = 5
+kind = "Hardlopen"
+cps = [
+    CheckPoint(idx=1, score=1, hint="hANS de brug", coordinate=(23400, 23523)),
+    CheckPoint(idx=2, score=2, hint="Paaltje", coordinate=(23444, 23523)),
+    CheckPoint(idx=3, score=1, hint="Onder de brug", coordinate=(23406, 23523)),
+    CheckPoint(idx=4, score=2, hint="Paaltje", coordinate=(23444, 23523)),
+    CheckPoint(idx=5, score=1, hint="Onder de brug", coordinate=(27400, 23523)),
+    CheckPoint(idx=6, score=2, hint="Paaltje", coordinate=(23444, 23523)),
+    CheckPoint(idx=7, score=1, hint="Onder de brug", coordinate=(23400, 23723)),
+    CheckPoint(idx=8, score=2, hint="Paaltje", coordinate=(23444, 23523)),
+]
+ref_etappe = Etappe(idx=idx, kind=kind, checkpoints=tuple(cps))
 
-# etappe_to_svg(etappe=ref_etappe)
+etappe_to_svg(etappe=ref_etappe)
 
-# subprocess.run("open test.svg", shell=True)
+subprocess.run("open test.svg", shell=True)
