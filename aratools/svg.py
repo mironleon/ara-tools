@@ -215,20 +215,20 @@ class TextBoxRow(Box):
         ]
 
 
-idx = 5
-kind = "Hardlopen"
-cps = [
-    CheckPoint(idx=1, score=1, hint="hANS de brug", coordinate=(23400, 23523)),
-    CheckPoint(idx=2, score=2, hint="Paaltje", coordinate=(23444, 23523)),
-    CheckPoint(idx=3, score=1, hint="Onder de brug", coordinate=(23406, 23523)),
-    CheckPoint(idx=4, score=2, hint="Paaltje", coordinate=(23444, 23523)),
-    CheckPoint(idx=5, score=1, hint="Onder de brug", coordinate=(27400, 23523)),
-    CheckPoint(idx=6, score=2, hint="Paaltje", coordinate=(23444, 23523)),
-    CheckPoint(idx=7, score=1, hint="Onder de brug", coordinate=(23400, 23723)),
-    CheckPoint(idx=8, score=2, hint="Paaltje", coordinate=(23444, 23523)),
-]
-ref_etappe = Etappe(idx=idx, kind=kind, checkpoints=tuple(cps))
+# idx = 5
+# kind = "Hardlopen"
+# cps = [
+#     CheckPoint(idx=1, score=1, hint="hANS de brug", coordinate=(23400, 23523)),
+#     CheckPoint(idx=2, score=2, hint="Paaltje", coordinate=(23444, 23523)),
+#     CheckPoint(idx=3, score=1, hint="Onder de brug", coordinate=(23406, 23523)),
+#     CheckPoint(idx=4, score=2, hint="Paaltje", coordinate=(23444, 23523)),
+#     CheckPoint(idx=5, score=1, hint="Onder de brug", coordinate=(27400, 23523)),
+#     CheckPoint(idx=6, score=2, hint="Paaltje", coordinate=(23444, 23523)),
+#     CheckPoint(idx=7, score=1, hint="Onder de brug", coordinate=(23400, 23723)),
+#     CheckPoint(idx=8, score=2, hint="Paaltje", coordinate=(23444, 23523)),
+# ]
+# ref_etappe = Etappe(idx=idx, kind=kind, checkpoints=tuple(cps))
 
-etappe_to_svg(etappe=ref_etappe)
+# etappe_to_svg(etappe=ref_etappe)
 
-subprocess.run("open test.svg", shell=True)
+# subprocess.run("open test.svg", shell=True)
