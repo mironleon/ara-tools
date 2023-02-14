@@ -1,6 +1,6 @@
-from aratools.svg import TextBox, TextBoxRow
-
 from pathlib import Path
+
+from aratools.svg import TextBox, TextBoxRow
 
 REF_DIR = Path(__file__).absolute().parent / "svg_references"
 
