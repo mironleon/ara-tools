@@ -5,7 +5,7 @@ from typing import Literal
 
 import drawSvg as draw
 
-from aratools.formatting import format_text
+from aratools.formatting import format_text, equal_division_generator
 from aratools.parcour import CheckPoint, Etappe
 
 align_mode = Literal["bottom", "middle", "top"]
@@ -207,18 +207,22 @@ class TextBoxRow(Box):
         super().__init__(x=x, y=y, width=width, height=height)
 
     def _get_children(self) -> list[draw.DrawingBasicElement]:
-        return [
-            TextBox(
-                x=f"{100 * i / self.n}%",
-                y=0,
-                width=round(self.width / self.n),
-                height="100%",
-                text=self.texts[i],
-                align=self.align,
-                fontSize=self.fontsize,
+        children = []
+        current_width = 0
+        for i, w in enumerate(equal_division_generator(self.width, self.n)):
+            children.append(
+                TextBox(
+                    x=current_width,
+                    y=0,
+                    width=w,
+                    height="100%",
+                    text=self.texts[i],
+                    align=self.align,
+                    fontSize=self.fontsize,
+                )
             )
-            for i in range(self.n)
-        ]
+            current_width += w
+        return children
 
 
 idx = 5

@@ -35,3 +35,24 @@ def truncated_word_generator(text: str, max_char: int) -> Generator[str, None, N
             yield w[: max_char - 1] + "-"
             w = w[max_char - 1 :]
         yield w
+
+
+def equal_division_generator(
+    numerator: int, denominator: int
+) -> Generator[int, None, None]:
+    """
+    Divide an integer into equally sized blocks and yield them.
+    If the remainder has value X, than the first X yielded values
+    will be increased by 1.
+    """
+    assert numerator > 0 and denominator > 0
+    remainder = numerator % denominator
+    ratio = numerator // denominator
+    while numerator > 0:
+        if remainder > 0:
+            result = ratio + 1
+            remainder -= 1
+        else:
+            result = ratio
+        yield result
+        numerator -= result
