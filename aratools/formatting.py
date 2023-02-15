@@ -1,5 +1,5 @@
 import copy
-from collections.abc import Generator
+from collections.abc import Generator, Sequence
 
 
 def format_text(tbox_width: int, text: str, fsize: int) -> str:
@@ -45,7 +45,10 @@ def equal_division_generator(
     If the remainder has value X, than the first X yielded values
     will be increased by 1.
     """
-    assert numerator > 0 and denominator > 0
+    assert numerator >= 0 and denominator > 0
+    if numerator == 0:
+        for _ in range(denominator):
+            yield 0
     remainder = numerator % denominator
     ratio = numerator // denominator
     while numerator > 0:
@@ -56,3 +59,22 @@ def equal_division_generator(
             result = ratio
         yield result
         numerator -= result
+
+
+def weighted_division_generator(
+    total: int, ratios: Sequence[float]
+) -> Generator[int, None, None]:
+    assert sum(ratios) == 1.0
+    denominators = tuple(1 // r for r in ratios)
+    results = (total // denominator for denominator in denominators)
+    remainder = sum(total % denominator for denominator in denominators)
+    return (
+        int(res + rem)
+        for res, rem in zip(
+            results, equal_division_generator(int(remainder), len(ratios)), strict=True
+        )
+    )
+
+
+# TODO this returns [50, 25] !!
+print(list(weighted_division_generator(50, [0.6, 0.4])))
