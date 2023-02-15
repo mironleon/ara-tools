@@ -49,31 +49,7 @@ def etappe_to_svg(etappe: Etappe, team_name: str = "foofooteam") -> draw.Drawing
         n_upper = int(len(etappe) / 2) + 1
         n_lower = int(len(etappe) / 2)
 
-    # middle line contains etappe number, etappe kind and team name
-    middle_line_height = round(height / 15)
-
-    # total height for upper and lower rows
-    combined_row_height = round((height - middle_line_height) / 2)
-    h_factors = [0.3, 0.1, 0.1, 0.2, 0.3]
-    heights = (
-        [round(factor * combined_row_height) for factor in h_factors]
-        + [middle_line_height]
-        + [round(factor * combined_row_height) for factor in reversed(h_factors)]
-    )
     n_boxes = [n_lower] * 5 + [3] + [n_upper] * 5
-    # alignments: list[align_mode] = [
-    #     "top",
-    #     "bottom",
-    #     "bottom",
-    #     "bottom",
-    #     "top",
-    #     "top",
-    #     "top",
-    #     "bottom",
-    #     "bottom",
-    #     "bottom",
-    #     "top",
-    # ]
     text_lists = [
         ["prik hier"] * n_upper,
         [f"{etappe.idx}.{i}" for i in range(1, len(etappe) + 1)[:n_upper]],
@@ -87,23 +63,22 @@ def etappe_to_svg(etappe: Etappe, team_name: str = "foofooteam") -> draw.Drawing
         [f"{etappe.idx}.{i}" for i in range(1, len(etappe) + 1)[-n_lower:]],
         ["prik hier"] * n_lower,
     ]
-    for i, (row_height, n, texts) in enumerate(
-        zip(heights, n_boxes, text_lists, strict=True)
+    current_height = 0
+    for row_height, n, texts in zip(
+        equal_division_generator(height, 11), n_boxes, text_lists, strict=True
     ):
-        # if i > 3:
-        #     break
-        # y = int(sum(heights[:i]))
         drawing.append(
             TextBoxRow(
                 x=0,
-                y=f"{round(100 * i / 11)}%",
+                y=current_height,
                 width=width,
-                height=f"{round(100 / 11)}%",
+                height=row_height,
                 n=n,
                 align="top",
                 texts=texts,
             )
         )
+        current_height += row_height
 
     drawing.saveSvg("test.svg")
 
