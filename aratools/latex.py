@@ -25,6 +25,7 @@ def etappe_to_pdf(etappe: Etappe, team_name: str):
         },
     )
     doc.preamble.append(NoEscape(r"\usepackage{graphicx}"))
+    doc.preamble.append(NoEscape(r"\renewcommand{\familydefault}{\sfdefault}"))
 
     doc.append(NoEscape(r"\resizebox{0.9 \paperwidth}{3 cm}{"))
     with doc.create(
@@ -111,12 +112,20 @@ cps = [
     CheckPoint(idx=4, score=2, hint="Paaltje", coordinate=(23444, 23523)),
     CheckPoint(idx=5, score=1, hint="Onder de brug", coordinate=(27400, 23523)),
     CheckPoint(idx=6, score=2, hint="Paaltje", coordinate=(23444, 23523)),
-    CheckPoint(idx=7, score=1, hint="Onder de brug", coordinate=(23400, 23723)),
+    CheckPoint(
+        idx=7,
+        score=1,
+        hint="Onder de brug om de hoek in het water",
+        coordinate=(23400, 23723),
+    ),
     CheckPoint(idx=8, score=2, hint="Paaltje", coordinate=(23444, 23523)),
     CheckPoint(idx=9, score=7, hint="Viaduct", coordinate=(23444, 23523)),
 ]
 ref_etappe = Etappe(idx=idx, kind=kind, checkpoints=tuple(cps))
 
-etappe_to_pdf(ref_etappe, team_name="1 - Het beste team van de hele wereld")
+etappe_to_pdf(
+    ref_etappe,
+    team_name="1 - Het beste team van de hele wereld Het beste team van de hele wereld Het beste team van de hele wereld",
+)
 
 subprocess.run("open test.pdf", shell=True)
