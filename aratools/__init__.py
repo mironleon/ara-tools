@@ -1,3 +1,3 @@
-from . import formatting, parcour, svg
+from . import formatting, parcour, latex
 
-__all__ = ["parcour", "svg", "formatting"]
+__all__ = ["parcour", "latex", "formatting"]
