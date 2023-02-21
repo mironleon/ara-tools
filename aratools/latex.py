@@ -26,7 +26,7 @@ def etappe_to_pdf(etappe: Etappe, team_names: list[str], path: Path):
     doc.preamble.append(NoEscape(r"\renewcommand{\familydefault}{\sfdefault}"))
     for team_name in team_names:
         add_table_page(etappe=etappe, team_name=team_name, doc=doc)
-    doc.generate_pdf(str(path), clean_tex=True)
+    doc.generate_pdf(str(path), clean_tex=False)
 
 
 def add_table_page(etappe: Etappe, team_name: str, doc: Document):

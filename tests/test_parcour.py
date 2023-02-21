@@ -1,13 +1,17 @@
+import shutil
+import subprocess
 from csv import writer
 from pathlib import Path
 
 from aratools.parcour import CheckPoint, Etappe, Parcour
 
+EXAMPLE_DIR = Path(__file__).absolute().parent / "example_data"
+
 
 def test_parcour():
-    parcour = Parcour(input_dir=Path(__file__).absolute().parent / "example_data")
+    parcour = Parcour(input_dir=EXAMPLE_DIR)
     assert len(parcour.etappes) == 2
-    assert len(parcour.etappes[1]) == 5
+    assert len(parcour.etappes[1]) == 10
     assert all(isinstance(cp, CheckPoint) for cp in parcour.etappes[1])
     assert parcour.etappes[1].kind == "hardlopen"
     assert parcour.etappes[2].kind == "fietsen"
@@ -57,9 +61,14 @@ def test_etappe_from_csv(tmp_path):
     assert etappe == ref_etappe
 
 
-def test_generate_pdfs(tmp_path):
-    parcour = Parcour(input_dir=Path(__file__).absolute().parent / "example_data")
-    parcour.generate_ponskaart_pdfs(tmp_path)
+def test_generate_pdfs():
+    parcour = Parcour(input_dir=EXAMPLE_DIR)
+    base_path = EXAMPLE_DIR / "pdfs"
+    if base_path.exists():
+        shutil.rmtree(base_path)
+    base_path.mkdir()
+    parcour.generate_ponskaart_pdfs(base_path)
     for idx in parcour.etappes:
-        path = tmp_path / f"Etappe_{idx}.pdf"
+        path = base_path / f"Etappe_{idx}.pdf"
         assert path.exists()
+        subprocess.run(f"open {path}", shell=True, check=True)
