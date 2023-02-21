@@ -5,6 +5,8 @@ from contextlib import contextmanager
 from dataclasses import dataclass
 from pathlib import Path
 
+from aratools.latex import etappe_to_pdf
+
 
 @contextmanager
 def csvreader(path: str | Path) -> Iterator[list[str]]:
@@ -40,13 +42,17 @@ class Parcour:
         _etappes = tuple(sorted(Etappe.from_csv(path) for path in paths))
         self.etappes = {et.idx: et for et in _etappes}
 
+    def generate_ponskaart_pdfs(self, path: Path):
+        for idx, etappe in self.etappes.items():
+            etappe_to_pdf(etappe, self.team_names, path / f"Etappe_{idx}")
+
 
 @dataclass(frozen=True)
 class CheckPoint:
     idx: int
     score: int  # how many points scoring the cp is worth
     hint: str
-    # TODO some cp's should not show coordinate, add 'hidden' attribute?
+    show: bool
     coordinate: tuple[
         int, int
     ]  # https://nl.wikipedia.org/wiki/Rijksdriehoeksco%C3%B6rdinaten
@@ -80,7 +86,8 @@ class Etappe(Collection[CheckPoint]):
                     idx=int(row[0]),
                     score=int(row[1]),
                     hint=row[2],
-                    coordinate=(int(row[3].split()[0]), int(row[3].split()[1])),
+                    show=row[3].upper() == "TRUE",
+                    coordinate=(int(row[4].split()[0]), int(row[4].split()[1])),
                 )
                 for row in reader
             )

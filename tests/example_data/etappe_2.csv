@@ -1,6 +1,6 @@
 fietsen
-1, 1, boom, 50051 65503
-2, 10, brug, 50030 655056
-3, 5, zwemmen, 50250 65300
-4, 15, paaltje, 50050 65200
-5, 2, bankje, 51050 62500
+1, 1, boom, FALSE, 50051 65503
+2, 10, brug, FALSE, 50030 655056
+3, 5, zwemmen, TRUE, 50250 65300
+4, 15, paaltje, FALSE, 50050 65200
+5, 2, bankje, FALSE, 51050 62500
