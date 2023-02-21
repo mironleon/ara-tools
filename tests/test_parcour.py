@@ -14,8 +14,8 @@ def test_parcour():
 
 
 def test_checkpoint_ordering():
-    cp1 = CheckPoint(idx=1, score=1, hint="", coordinate=(0, 0))
-    cp2 = CheckPoint(idx=2, score=1, hint="", coordinate=(0, 0))
+    cp1 = CheckPoint(idx=1, score=1, hint="", show=True, coordinate=(0, 0))
+    cp2 = CheckPoint(idx=2, score=1, hint="", show=False, coordinate=(0, 0))
     assert cp1 < cp2
     assert cp2 > cp1
     assert sorted([cp2, cp1]) == [cp1, cp2]
@@ -24,8 +24,12 @@ def test_checkpoint_ordering():
 def test_etappe_from_csv(tmp_path):
     idx = 5
     kind = "Hardlopen"
-    cp1 = CheckPoint(idx=1, score=1, hint="Onder de brug", coordinate=(23400, 23523))
-    cp2 = CheckPoint(idx=2, score=2, hint="Paaltje", coordinate=(23444, 23523))
+    cp1 = CheckPoint(
+        idx=1, score=1, hint="Onder de brug", show=True, coordinate=(23400, 23523)
+    )
+    cp2 = CheckPoint(
+        idx=2, score=2, hint="Paaltje", show=False, coordinate=(23444, 23523)
+    )
     etappe_fn = tmp_path / f"etappe_{idx}.csv"
     ref_etappe = Etappe(idx=idx, kind=kind, checkpoints=(cp1, cp2))
     with open(etappe_fn, "w") as f:
@@ -36,6 +40,7 @@ def test_etappe_from_csv(tmp_path):
                 str(cp1.idx),
                 str(cp1.score),
                 str(cp1.hint),
+                str(cp1.show).upper(),
                 f"{cp1.coordinate[0]} {cp1.coordinate[1]}",
             ]
         )
@@ -44,6 +49,7 @@ def test_etappe_from_csv(tmp_path):
                 str(cp2.idx),
                 str(cp2.score),
                 str(cp2.hint),
+                str(cp2.show).upper(),
                 f"{cp2.coordinate[0]} {cp2.coordinate[1]}",
             ]
         )

@@ -46,7 +46,7 @@ class CheckPoint:
     idx: int
     score: int  # how many points scoring the cp is worth
     hint: str
-    # TODO some cp's should not show coordinate, add 'hidden' attribute?
+    show: bool
     coordinate: tuple[
         int, int
     ]  # https://nl.wikipedia.org/wiki/Rijksdriehoeksco%C3%B6rdinaten
@@ -80,7 +80,8 @@ class Etappe(Collection[CheckPoint]):
                     idx=int(row[0]),
                     score=int(row[1]),
                     hint=row[2],
-                    coordinate=(int(row[3].split()[0]), int(row[3].split()[1])),
+                    show=row[3].upper() == "TRUE",
+                    coordinate=(int(row[4].split()[0]), int(row[4].split()[1])),
                 )
                 for row in reader
             )

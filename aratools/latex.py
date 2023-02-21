@@ -1,8 +1,9 @@
-from aratools.parcour import Etappe, CheckPoint
-
-from pylatex import Document, Tabularx, NoEscape, Tabular
-from pylatex.utils import bold, italic
 import subprocess
+
+from pylatex import Document, NoEscape, Tabular, Tabularx
+from pylatex.utils import bold, italic
+
+from aratools.parcour import CheckPoint, Etappe
 
 
 def etappe_to_pdf(etappe: Etappe, team_name: str):
@@ -103,29 +104,29 @@ def etappe_to_pdf(etappe: Etappe, team_name: str):
 
 subprocess.run("rm test.pdf", shell=True)
 
-idx = 5
-kind = "Hardlopen"
-cps = [
-    CheckPoint(idx=1, score=1, hint="hANS de brug", coordinate=(23400, 23523)),
-    CheckPoint(idx=2, score=2, hint="Paaltje", coordinate=(23444, 23523)),
-    CheckPoint(idx=3, score=1, hint="Onder de brug", coordinate=(23406, 23523)),
-    CheckPoint(idx=4, score=2, hint="Paaltje", coordinate=(23444, 23523)),
-    CheckPoint(idx=5, score=1, hint="Onder de brug", coordinate=(27400, 23523)),
-    CheckPoint(idx=6, score=2, hint="Paaltje", coordinate=(23444, 23523)),
-    CheckPoint(
-        idx=7,
-        score=1,
-        hint="Onder de brug om de hoek in het water",
-        coordinate=(23400, 23723),
-    ),
-    CheckPoint(idx=8, score=2, hint="Paaltje", coordinate=(23444, 23523)),
-    CheckPoint(idx=9, score=7, hint="Viaduct", coordinate=(23444, 23523)),
-]
-ref_etappe = Etappe(idx=idx, kind=kind, checkpoints=tuple(cps))
+# idx = 5
+# kind = "Hardlopen"
+# cps = [
+#     CheckPoint(idx=1, score=1, hint="hANS de brug", coordinate=(23400, 23523)),
+#     CheckPoint(idx=2, score=2, hint="Paaltje", coordinate=(23444, 23523)),
+#     CheckPoint(idx=3, score=1, hint="Onder de brug", coordinate=(23406, 23523)),
+#     CheckPoint(idx=4, score=2, hint="Paaltje", coordinate=(23444, 23523)),
+#     CheckPoint(idx=5, score=1, hint="Onder de brug", coordinate=(27400, 23523)),
+#     CheckPoint(idx=6, score=2, hint="Paaltje", coordinate=(23444, 23523)),
+#     CheckPoint(
+#         idx=7,
+#         score=1,
+#         hint="Onder de brug om de hoek in het water",
+#         coordinate=(23400, 23723),
+#     ),
+#     CheckPoint(idx=8, score=2, hint="Paaltje", coordinate=(23444, 23523)),
+#     CheckPoint(idx=9, score=7, hint="Viaduct", coordinate=(23444, 23523)),
+# ]
+# ref_etappe = Etappe(idx=idx, kind=kind, checkpoints=tuple(cps))
 
-etappe_to_pdf(
-    ref_etappe,
-    team_name="1 - Het beste team van de hele wereld Het beste team van de hele wereld Het beste team van de hele wereld",
-)
+# etappe_to_pdf(
+#     ref_etappe,
+#     team_name="1 - Het beste team van de hele wereld Het beste team van de hele wereld Het beste team van de hele wereld",
+# )
 
-subprocess.run("open test.pdf", shell=True)
+# subprocess.run("open test.pdf", shell=True)

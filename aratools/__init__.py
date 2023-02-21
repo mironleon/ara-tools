@@ -1,3 +1,3 @@
-from . import formatting, parcour, latex
+from . import latex, parcour
 
-__all__ = ["parcour", "latex", "formatting"]
+__all__ = ["parcour", "latex"]
