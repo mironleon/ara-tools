@@ -5,12 +5,12 @@ from aratools.parcour import CheckPoint, Etappe, Parcour
 
 
 def test_parcour():
-    pons = Parcour(input_dir=Path(__file__).absolute().parent / "example_data")
-    assert len(pons.etappes) == 2
-    assert len(pons.etappes[1]) == 5
-    assert all(isinstance(cp, CheckPoint) for cp in pons.etappes[1])
-    assert pons.etappes[1].kind == "hardlopen"
-    assert pons.etappes[2].kind == "fietsen"
+    parcour = Parcour(input_dir=Path(__file__).absolute().parent / "example_data")
+    assert len(parcour.etappes) == 2
+    assert len(parcour.etappes[1]) == 5
+    assert all(isinstance(cp, CheckPoint) for cp in parcour.etappes[1])
+    assert parcour.etappes[1].kind == "hardlopen"
+    assert parcour.etappes[2].kind == "fietsen"
 
 
 def test_checkpoint_ordering():
@@ -55,3 +55,11 @@ def test_etappe_from_csv(tmp_path):
         )
     etappe = Etappe.from_csv(etappe_fn)
     assert etappe == ref_etappe
+
+
+def test_generate_pdfs(tmp_path):
+    parcour = Parcour(input_dir=Path(__file__).absolute().parent / "example_data")
+    parcour.generate_ponskaart_pdfs(tmp_path)
+    for idx in parcour.etappes:
+        path = tmp_path / f"Etappe_{idx}.pdf"
+        assert path.exists()

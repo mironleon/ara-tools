@@ -5,6 +5,8 @@ from contextlib import contextmanager
 from dataclasses import dataclass
 from pathlib import Path
 
+from aratools.latex import etappe_to_pdf
+
 
 @contextmanager
 def csvreader(path: str | Path) -> Iterator[list[str]]:
@@ -39,6 +41,10 @@ class Parcour:
         assert len(paths)
         _etappes = tuple(sorted(Etappe.from_csv(path) for path in paths))
         self.etappes = {et.idx: et for et in _etappes}
+
+    def generate_ponskaart_pdfs(self, path: Path):
+        for idx, etappe in self.etappes.items():
+            etappe_to_pdf(etappe, self.team_names, path / f"Etappe_{idx}")
 
 
 @dataclass(frozen=True)
