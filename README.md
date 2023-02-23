@@ -75,4 +75,4 @@ The easiest way, start the notebook on binder, upload your csv files in the note
 
 Note that it may take several minutes for the notebook to start
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/mironleon/aratools/main?urlpath=lab/tree)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/mironleon/aratools/main?urlpath=tree)
