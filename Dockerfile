@@ -26,3 +26,4 @@ USER ${USER}
 
 COPY /tests/example_data ${HOME}/example_data
 RUN mkdir input_csvs output_pdfs
+COPY /aratools/Notebooks/generate_pdfs.ipynb ${HOME}
