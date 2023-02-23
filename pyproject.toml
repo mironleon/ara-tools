@@ -18,7 +18,7 @@ classifiers = [
 ]
 
 dependencies = [
-  "drawSvg==1.9.0"
+  "pylatex==1.4.1"
 ]
 
 [project.urls]
