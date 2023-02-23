@@ -23,3 +23,6 @@ RUN adduser --disabled-password \
     ${NB_USER}
 WORKDIR ${HOME}
 USER ${USER}
+
+COPY /tests/example_data ${HOME}/example_data
+RUN mkdir input_csvs output_pdfs
