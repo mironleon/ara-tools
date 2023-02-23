@@ -76,3 +76,9 @@ The easiest way, start the notebook on binder, upload your csv files in the note
 Note that it may take several minutes for the notebook to start
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/mironleon/aratools/main?urlpath=tree)
+
+## Planned features
+
+- Allow using [WGS84](https://wiki.gis.com/wiki/index.php/WGS84) coordinates (googles maps standard) and convert to rijksdriehoeks
+- Provide sample google sheets template with data validation
+- Provide guide for exporting csvs from google maps
