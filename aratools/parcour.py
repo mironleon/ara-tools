@@ -42,7 +42,8 @@ class Parcour:
         _etappes = tuple(sorted(Etappe.from_csv(path) for path in paths))
         self.etappes = {et.idx: et for et in _etappes}
 
-    def generate_ponskaart_pdfs(self, path: Path):
+    def generate_ponskaart_pdfs(self, path: str | Path):
+        path = Path(path)
         for idx, etappe in self.etappes.items():
             etappe_to_pdf(etappe, self.team_names, path / f"Etappe_{idx}")
 
