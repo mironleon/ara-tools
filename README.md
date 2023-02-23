@@ -73,7 +73,7 @@ No idea, probably WSL <https://ubuntu.com/wsl> (untested)
 
 The easiest way, start the notebook on binder, upload your csv files in the notebook environment and follow the instructions in the notebook.
 
-Note that it may take several minutes for the notebook to start
+Note that it may take several minutes for the notebook to start!
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/mironleon/aratools/main?urlpath=tree)
 
