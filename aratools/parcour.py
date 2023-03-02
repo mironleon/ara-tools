@@ -6,6 +6,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from aratools.latex import etappe_to_pdf
+from aratools.coordinate import WKT_converter
 
 
 def fix_gmaps_csv(fn: str | Path) -> list[str]:
@@ -94,22 +95,23 @@ class Etappe(Collection[CheckPoint]):
 
     @classmethod
     def from_csv(cls, path: Path):
-        # etappe_4.csv should result in idx 4
-        idx = int(path.stem.split("_")[-1])
-        with csvreader(path) as reader:
-            # header line should contain kind of etappe (fietsen, kano, run-bike)
-            kind = next(reader)[0]
-            cps = tuple(
+        reader = csv.DictReader(fix_gmaps_csv(path))
+        return cls(
+            # etappe_4_hardlopen.csv should result in idx 4
+            idx=int(path.stem.split("_")[-2]),
+            # and kind 'hardlopen'
+            kind=path.stem.split("_")[-1],
+            checkpoints=tuple(
                 CheckPoint(
-                    idx=int(row[0]),
-                    score=int(row[1]),
-                    hint=row[2],
-                    show=row[3].upper() == "TRUE",
-                    coordinate=(int(row[4].split()[0]), int(row[4].split()[1])),
+                    idx=i + 1,
+                    score=int(line["score"]),
+                    hint=str(line["hint"]),
+                    show=bool(line["hidden"]),
+                    coordinate=WKT_converter.to_amersfoort(line["WKT"]),
                 )
-                for row in reader
-            )
-        return cls(idx=idx, kind=kind, checkpoints=cps)
+                for i, line in enumerate(reader)
+            ),
+        )
 
     def __lt__(self, other) -> bool:
         return bool(self.idx < other)
