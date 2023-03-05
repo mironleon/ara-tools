@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <name>test_map</name>
+    <description/>
+    <Style id="icon-1899-0288D1-normal">
+      <IconStyle>
+        <color>ffd18802</color>
+        <scale>1</scale>
+        <Icon>
+          <href>https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png</href>
+        </Icon>
+        <hotSpot x="32" xunits="pixels" y="64" yunits="insetPixels"/>
+      </IconStyle>
+      <LabelStyle>
+        <scale>0</scale>
+      </LabelStyle>
+    </Style>
+    <Style id="icon-1899-0288D1-highlight">
+      <IconStyle>
+        <color>ffd18802</color>
+        <scale>1</scale>
+        <Icon>
+          <href>https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png</href>
+        </Icon>
+        <hotSpot x="32" xunits="pixels" y="64" yunits="insetPixels"/>
+      </IconStyle>
+      <LabelStyle>
+        <scale>1</scale>
+      </LabelStyle>
+    </Style>
+    <StyleMap id="icon-1899-0288D1">
+      <Pair>
+        <key>normal</key>
+        <styleUrl>#icon-1899-0288D1-normal</styleUrl>
+      </Pair>
+      <Pair>
+        <key>highlight</key>
+        <styleUrl>#icon-1899-0288D1-highlight</styleUrl>
+      </Pair>
+    </StyleMap>
+    <Folder>
+      <name>Etappe_1_fietsen</name>
+      <Placemark>
+        <name>Point 1</name>
+        <description><![CDATA[hint: descritpion<br>show: true<br>score: 10]]></description>
+        <styleUrl>#icon-1899-0288D1</styleUrl>
+        <ExtendedData>
+          <Data name="hint">
+            <value>descritpion</value>
+          </Data>
+          <Data name="show">
+            <value>1</value>
+          </Data>
+          <Data name="score">
+            <value>10.0</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            5.2652943,52.1516656,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Point 2</name>
+        <description><![CDATA[hint: description<br>show: false<br>score: 15]]></description>
+        <styleUrl>#icon-1899-0288D1</styleUrl>
+        <ExtendedData>
+          <Data name="hint">
+            <value>description</value>
+          </Data>
+          <Data name="show">
+            <value>0</value>
+          </Data>
+          <Data name="score">
+            <value>15.0</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            5.3142177,52.1459776,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Point 3</name>
+        <description><![CDATA[hint: mooi punt<br><br>show: false<br>score: 20]]></description>
+        <styleUrl>#icon-1899-0288D1</styleUrl>
+        <ExtendedData>
+          <Data name="hint">
+            <value>mooi punt
+</value>
+          </Data>
+          <Data name="show">
+            <value>0</value>
+          </Data>
+          <Data name="score">
+            <value>20.0</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            5.2768814,52.1408683,0
+          </coordinates>
+        </Point>
+      </Placemark>
+    </Folder>
+    <Folder>
+      <name>Etappe_2_hardlopen</name>
+      <Placemark>
+        <name>Point 1</name>
+        <description><![CDATA[hint: descritpion<br>show: 1<br>score: 10]]></description>
+        <styleUrl>#icon-1899-0288D1</styleUrl>
+        <ExtendedData>
+          <Data name="hint">
+            <value>descritpion</value>
+          </Data>
+          <Data name="show">
+            <value>1.0</value>
+          </Data>
+          <Data name="score">
+            <value>10.0</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            5.2780831,52.150823,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Point 2</name>
+        <description><![CDATA[hint: description<br>show: 0<br>score: 15]]></description>
+        <styleUrl>#icon-1899-0288D1</styleUrl>
+        <ExtendedData>
+          <Data name="hint">
+            <value>description</value>
+          </Data>
+          <Data name="show">
+            <value>0.0</value>
+          </Data>
+          <Data name="score">
+            <value>15.0</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            5.3189384,52.1532981,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Point 3</name>
+        <description><![CDATA[hint: mooi punt<br>show: 1<br>score: 20]]></description>
+        <styleUrl>#icon-1899-0288D1</styleUrl>
+        <ExtendedData>
+          <Data name="hint">
+            <value>mooi punt</value>
+          </Data>
+          <Data name="show">
+            <value>1.0</value>
+          </Data>
+          <Data name="score">
+            <value>20.0</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            5.2668392,52.1428699,0
+          </coordinates>
+        </Point>
+      </Placemark>
+    </Folder>
+  </Document>
+</kml>

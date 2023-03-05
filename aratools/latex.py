@@ -10,7 +10,7 @@ if TYPE_CHECKING:
     from aratools.parcour import Etappe
 
 
-def etappe_to_pdf(etappe: Etappe, team_names: list[str], path: Path):
+def etappe_to_pdf(etappe: Etappe, team_names: tuple[str, ...], path: Path):
     """
     Create a PDF with a ponskaart for every team for 1 etappe
     """
@@ -33,7 +33,7 @@ def add_table_page(etappe: Etappe, team_name: str, doc: Document):
     """
     Add a table page representing a ponskaart to a document
     """
-    table_width = NoEscape("0.9 \paperwidth")
+    table_width = NoEscape(r"0.9 \paperwidth")
     row_height = "1.0"
 
     if len(etappe) % 2 == 0:

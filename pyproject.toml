@@ -19,7 +19,8 @@ classifiers = [
 
 dependencies = [
   "pylatex==1.4.1",
-  "pyproj==3.4.1"
+  "pyproj==3.4.1",
+  "fastkml==0.12"
 ]
 
 [project.urls]
