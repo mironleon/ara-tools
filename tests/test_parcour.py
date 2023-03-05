@@ -12,7 +12,7 @@ def test_parcour():
         team_csv_path=EXAMPLE_DIR / "teams.csv",
         etappe_kml_path=EXAMPLE_DIR / "test_map.kml",
     )
-    assert len(parcour.etappes) == 2
+    assert len(parcour.etappes) == 7
     assert len(parcour.etappes[1]) == 3
     assert all(isinstance(cp, CheckPoint) for cp in parcour.etappes[1])
     assert parcour.etappes[1].kind == "fietsen"

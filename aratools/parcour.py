@@ -82,7 +82,8 @@ class Etappe(Collection[CheckPoint]):
 
     def __post_init__(self):
         assert tuple(sorted(self.checkpoints)) == self.checkpoints
-        assert len(self.checkpoints)
+        # need at least 1 cp on the upper row and 1 on the lower row
+        assert len(self.checkpoints) > 1
 
     @classmethod
     def from_kml_folder(cls, folder: kml.Folder):
