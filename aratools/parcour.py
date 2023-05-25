@@ -32,12 +32,15 @@ class Parcour:
 
     def _process_teams_file(self, path: str | Path):
         # team names, single csv file, names only
-        path = Path(path)
+        path = Path(path).resolve()
+        assert path.suffix == ".csv"
         with csvreader(path) as reader:
             self.team_names = tuple(row[0] for row in reader)
         assert len(self.team_names)
 
     def _process_etappes_kml(self, path: str | Path):
+        path = Path(path).resolve()
+        assert path.suffix == ".kml"
         with open(path, "rb") as f:
             kml_str = f.read()
         k = kml.KML()
@@ -62,7 +65,7 @@ class CheckPoint:
     idx: int
     score: int  # how many points scoring the cp is worth
     hint: str
-    show: bool
+    hidden: bool
     coordinate: tuple[
         int, int
     ]  # https://nl.wikipedia.org/wiki/Rijksdriehoeksco%C3%B6rdinaten
@@ -94,14 +97,16 @@ class Etappe(Collection[CheckPoint]):
         kind = name.split("_")[-1]
         cps = []
         for i, placemark in enumerate(folder.features()):
-            cp_data = {e.name: e.value for e in placemark.extended_data.elements}
+            cp_data = {
+                e.name.lower(): e.value for e in placemark.extended_data.elements
+            }
             point = placemark.geometry
             cps.append(
                 CheckPoint(
                     idx=i + 1,
                     score=int(float(cp_data["score"])),
                     hint=str(cp_data["hint"]),
-                    show=bool(cp_data["show"]),
+                    hidden=bool(cp_data["hidden"]),
                     coordinate=WKT_converter.to_amersfoort(point.x, point.y),
                 )
             )

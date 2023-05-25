@@ -43,13 +43,13 @@
       <name>Etappe_1_fietsen</name>
       <Placemark>
         <name>Point 1</name>
-        <description><![CDATA[hint: descritpion<br>show: true<br>score: 10]]></description>
+        <description><![CDATA[hint: descritpion<br>hidden: true<br>score: 10]]></description>
         <styleUrl>#icon-1899-0288D1</styleUrl>
         <ExtendedData>
           <Data name="hint">
             <value>descritpion</value>
           </Data>
-          <Data name="show">
+          <Data name="hidden">
             <value>1</value>
           </Data>
           <Data name="score">
@@ -64,13 +64,13 @@
       </Placemark>
       <Placemark>
         <name>Point 2</name>
-        <description><![CDATA[hint: description<br>show: false<br>score: 15]]></description>
+        <description><![CDATA[hint: description<br>hidden: false<br>score: 15]]></description>
         <styleUrl>#icon-1899-0288D1</styleUrl>
         <ExtendedData>
           <Data name="hint">
             <value>description</value>
           </Data>
-          <Data name="show">
+          <Data name="hidden">
             <value>0</value>
           </Data>
           <Data name="score">
@@ -85,14 +85,14 @@
       </Placemark>
       <Placemark>
         <name>Point 3</name>
-        <description><![CDATA[hint: mooi punt<br><br>show: false<br>score: 20]]></description>
+        <description><![CDATA[hint: mooi punt<br><br>hidden: false<br>score: 20]]></description>
         <styleUrl>#icon-1899-0288D1</styleUrl>
         <ExtendedData>
           <Data name="hint">
             <value>mooi punt
 </value>
           </Data>
-          <Data name="show">
+          <Data name="hidden">
             <value>0</value>
           </Data>
           <Data name="score">
@@ -110,14 +110,14 @@
       <name>Etappe_2_hardlopen</name>
       <Placemark>
         <name>Point 1</name>
-        <description><![CDATA[hint: dit is een hint<br><br>show: true<br>score: 10]]></description>
+        <description><![CDATA[hint: dit is een hint<br><br>hidden: true<br>score: 10]]></description>
         <styleUrl>#icon-1899-0288D1</styleUrl>
         <ExtendedData>
           <Data name="hint">
             <value>dit is een hint
 </value>
           </Data>
-          <Data name="show">
+          <Data name="hidden">
             <value>1</value>
           </Data>
           <Data name="score">
@@ -132,13 +132,13 @@
       </Placemark>
       <Placemark>
         <name>Point 2</name>
-        <description><![CDATA[hint: description<br>show: false<br>score: 15]]></description>
+        <description><![CDATA[hint: description<br>hidden: false<br>score: 15]]></description>
         <styleUrl>#icon-1899-0288D1</styleUrl>
         <ExtendedData>
           <Data name="hint">
             <value>description</value>
           </Data>
-          <Data name="show">
+          <Data name="hidden">
             <value>0</value>
           </Data>
           <Data name="score">
@@ -153,13 +153,13 @@
       </Placemark>
       <Placemark>
         <name>Point 3</name>
-        <description><![CDATA[hint: mooi punt<br>show: true<br>score: 20]]></description>
+        <description><![CDATA[hint: mooi punt<br>hidden: true<br>score: 20]]></description>
         <styleUrl>#icon-1899-0288D1</styleUrl>
         <ExtendedData>
           <Data name="hint">
             <value>mooi punt</value>
           </Data>
-          <Data name="show">
+          <Data name="hidden">
             <value>1</value>
           </Data>
           <Data name="score">
@@ -177,14 +177,14 @@
       <name>Etappe_3_fietsen</name>
       <Placemark>
         <name>Point 1</name>
-        <description><![CDATA[hint: dit is een hintje<br><br>show: true<br>score: 7]]></description>
+        <description><![CDATA[hint: dit is een hintje<br><br>hidden: true<br>score: 7]]></description>
         <styleUrl>#icon-1899-0288D1</styleUrl>
         <ExtendedData>
           <Data name="hint">
             <value>dit is een hintje
 </value>
           </Data>
-          <Data name="show">
+          <Data name="hidden">
             <value>1</value>
           </Data>
           <Data name="score">
@@ -199,13 +199,13 @@
       </Placemark>
       <Placemark>
         <name>Point 2</name>
-        <description><![CDATA[hint: blabal<br>show: true<br>score: 1]]></description>
+        <description><![CDATA[hint: blabal<br>hidden: true<br>score: 1]]></description>
         <styleUrl>#icon-1899-0288D1</styleUrl>
         <ExtendedData>
           <Data name="hint">
             <value>blabal</value>
           </Data>
-          <Data name="show">
+          <Data name="hidden">
             <value>1</value>
           </Data>
           <Data name="score">
@@ -223,13 +223,13 @@
       <name>Etappe_4_hardlopen</name>
       <Placemark>
         <name>Point 1</name>
-        <description><![CDATA[hint: testhint<br>show: true<br>score: 9]]></description>
+        <description><![CDATA[hint: testhint<br>hidden: true<br>score: 9]]></description>
         <styleUrl>#icon-1899-0288D1</styleUrl>
         <ExtendedData>
           <Data name="hint">
             <value>testhint</value>
           </Data>
-          <Data name="show">
+          <Data name="hidden">
             <value>1</value>
           </Data>
           <Data name="score">
@@ -244,13 +244,13 @@
       </Placemark>
       <Placemark>
         <name>Point 2</name>
-        <description><![CDATA[hint: bla<br>show: true<br>score: 12]]></description>
+        <description><![CDATA[hint: bla<br>hidden: true<br>score: 12]]></description>
         <styleUrl>#icon-1899-0288D1</styleUrl>
         <ExtendedData>
           <Data name="hint">
             <value>bla</value>
           </Data>
-          <Data name="show">
+          <Data name="hidden">
             <value>1</value>
           </Data>
           <Data name="score">
@@ -268,14 +268,14 @@
       <name>Etappe_5_fietsen</name>
       <Placemark>
         <name>Point 1</name>
-        <description><![CDATA[hint: nog een testhint<br><br>show: true<br>score: 12]]></description>
+        <description><![CDATA[hint: nog een testhint<br><br>hidden: true<br>score: 12]]></description>
         <styleUrl>#icon-1899-0288D1</styleUrl>
         <ExtendedData>
           <Data name="hint">
             <value>nog een testhint
 </value>
           </Data>
-          <Data name="show">
+          <Data name="hidden">
             <value>1</value>
           </Data>
           <Data name="score">
@@ -290,13 +290,13 @@
       </Placemark>
       <Placemark>
         <name>Point 2</name>
-        <description><![CDATA[hint: blbablaab<br>show: true<br>score: 10]]></description>
+        <description><![CDATA[hint: blbablaab<br>hidden: true<br>score: 10]]></description>
         <styleUrl>#icon-1899-0288D1</styleUrl>
         <ExtendedData>
           <Data name="hint">
             <value>blbablaab</value>
           </Data>
-          <Data name="show">
+          <Data name="hidden">
             <value>1</value>
           </Data>
           <Data name="score">
@@ -314,14 +314,14 @@
       <name>Etappe_6_kano</name>
       <Placemark>
         <name>Point 1</name>
-        <description><![CDATA[hint: onder de boom<br><br>show: true<br>score: 16]]></description>
+        <description><![CDATA[hint: onder de boom<br><br>hidden: true<br>score: 16]]></description>
         <styleUrl>#icon-1899-0288D1</styleUrl>
         <ExtendedData>
           <Data name="hint">
             <value>onder de boom
 </value>
           </Data>
-          <Data name="show">
+          <Data name="hidden">
             <value>1</value>
           </Data>
           <Data name="score">
@@ -336,13 +336,13 @@
       </Placemark>
       <Placemark>
         <name>Point 2</name>
-        <description><![CDATA[hint: bla<br>show: true<br>score: 11]]></description>
+        <description><![CDATA[hint: bla<br>hidden: true<br>score: 11]]></description>
         <styleUrl>#icon-1899-0288D1</styleUrl>
         <ExtendedData>
           <Data name="hint">
             <value>bla</value>
           </Data>
-          <Data name="show">
+          <Data name="hidden">
             <value>1</value>
           </Data>
           <Data name="score">
@@ -360,14 +360,14 @@
       <name>Etappe_7_fietsen</name>
       <Placemark>
         <name>Point 1</name>
-        <description><![CDATA[hint: laatste hint<br><br>show: true<br>score: 17]]></description>
+        <description><![CDATA[hint: laatste hint<br><br>hidden: true<br>score: 17]]></description>
         <styleUrl>#icon-1899-0288D1</styleUrl>
         <ExtendedData>
           <Data name="hint">
             <value>laatste hint
 </value>
           </Data>
-          <Data name="show">
+          <Data name="hidden">
             <value>1</value>
           </Data>
           <Data name="score">
@@ -382,14 +382,14 @@
       </Placemark>
       <Placemark>
         <name>Point 2</name>
-        <description><![CDATA[hint: lariekoek<br><br>show: true<br>score: 15]]></description>
+        <description><![CDATA[hint: lariekoek<br><br>hidden: true<br>score: 15]]></description>
         <styleUrl>#icon-1899-0288D1</styleUrl>
         <ExtendedData>
           <Data name="hint">
             <value>lariekoek
 </value>
           </Data>
-          <Data name="show">
+          <Data name="hidden">
             <value>1</value>
           </Data>
           <Data name="score">

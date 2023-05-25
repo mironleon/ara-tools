@@ -65,7 +65,7 @@ def add_table_page(etappe: Etappe, team_name: str, doc: Document):
         table.add_hline()
         table.add_row(
             [
-                "\n".join(str(c) for c in cp.coordinate) if cp.show else "Zie kaart"
+                "\n".join(str(c) for c in cp.coordinate) if cp.hidden else "Zie kaart"
                 for cp in etappe[:n_upper]
             ],
             mapper=bold,
@@ -103,7 +103,7 @@ def add_table_page(etappe: Etappe, team_name: str, doc: Document):
         table.add_hline()
         table.add_row(
             [
-                "\n".join(str(c) for c in cp.coordinate) if cp.show else "Zie kaart"
+                "\n".join(str(c) for c in cp.coordinate) if cp.hidden else "Zie kaart"
                 for cp in etappe[-n_lower:]
             ],
             mapper=bold,

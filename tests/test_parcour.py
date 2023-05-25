@@ -20,8 +20,8 @@ def test_parcour():
 
 
 def test_checkpoint_ordering():
-    cp1 = CheckPoint(idx=1, score=1, hint="", show=True, coordinate=(0, 0))
-    cp2 = CheckPoint(idx=2, score=1, hint="", show=False, coordinate=(0, 0))
+    cp1 = CheckPoint(idx=1, score=1, hint="", hidden=True, coordinate=(0, 0))
+    cp2 = CheckPoint(idx=2, score=1, hint="", hidden=False, coordinate=(0, 0))
     assert cp1 < cp2
     assert cp2 > cp1
     assert sorted([cp2, cp1]) == [cp1, cp2]
