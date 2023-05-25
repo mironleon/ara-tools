@@ -106,7 +106,7 @@ class Etappe(Collection[CheckPoint]):
                     idx=i + 1,
                     score=int(float(cp_data["score"])),
                     hint=str(cp_data["hint"]),
-                    hidden=bool(cp_data["hidden"]),
+                    hidden=bool(int(cp_data["hidden"])),
                     coordinate=WKT_converter.to_amersfoort(point.x, point.y),
                 )
             )
@@ -129,3 +129,37 @@ class Etappe(Collection[CheckPoint]):
 
     def __contains__(self, __x: object) -> bool:
         return bool(__x in self.checkpoints)
+
+
+def strip_hidden_cp_from_kml(path: str | Path) -> None:
+    path = Path(path).resolve()
+    assert path.suffix == ".kml"
+    with open(path, "rb") as old_folder:
+        kml_str = old_folder.read()
+    old_kml = kml.KML()
+    old_kml.from_string(kml_str)
+    old_doc = list(old_kml.features())[0]
+    old_folders = old_doc.features()
+    new_kml = kml.KML()
+    new_doc = kml.Document(old_doc.ns, name=old_doc.name)
+    new_kml.append(new_doc)
+    for old_folder in old_folders:
+        new_folder = kml.Folder(
+            ns=old_folder.ns,
+            id=old_folder.id,
+            name=old_folder.name,
+            description=old_folder.description,
+            styles=old_folder.styles(),
+            styleUrl=old_folder.styleUrl,
+        )
+        for placemark in old_folder.features():
+            cp_data = {
+                e.name.lower(): e.value for e in placemark.extended_data.elements
+            }
+            if not bool(int(cp_data["hidden"])):
+                new_folder.append(placemark)
+        new_doc.append(new_folder)
+    with open(
+        path.parent / Path(path.stem + "hidden_removed").with_suffix(".kml"), "w"
+    ) as f:
+        f.write(new_kml.to_string())
