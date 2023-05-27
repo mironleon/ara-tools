@@ -3,6 +3,7 @@ from collections.abc import Collection, Iterator
 from contextlib import contextmanager
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Generator
 
 from fastkml import kml
 
@@ -46,8 +47,13 @@ class Parcour:
         k = kml.KML()
         k.from_string(kml_str)
         doc = list(k.features())[0]
-        folders = doc.features()
-        _etappes = tuple(Etappe.from_kml_folder(f) for f in folders)
+        assert isinstance(doc, kml.Document)
+        folders: list[kml.Folder] = list(doc.features())  # type: ignore
+        assert all(isinstance(f, kml.Folder) for f in folders)
+        # name should be 'Etappe_4_fietsen' format, so containing two underscores
+        _etappes = tuple(
+            Etappe.from_kml_folder(f) for f in folders if str(f.name).count("_") == 2
+        )
         self.etappes = {et.idx: et for et in _etappes}
 
     def generate_ponskaart_pdfs(self, path: str | Path):
@@ -90,7 +96,9 @@ class Etappe(Collection[CheckPoint]):
 
     @classmethod
     def from_kml_folder(cls, folder: kml.Folder):
-        name = folder.name
+        name = str(folder.name)
+        # name should be 'Etappe_4_fietsen' format
+        assert name.count("_") == 2
         # etappe_4_hardlopen should result in idx 4
         idx = int(name.split("_")[-2])
         # and kind 'hardlopen'
@@ -139,11 +147,12 @@ def strip_hidden_cp_from_kml(path: str | Path) -> None:
     old_kml = kml.KML()
     old_kml.from_string(kml_str)
     old_doc = list(old_kml.features())[0]
-    old_folders = old_doc.features()
+    old_folders: Generator[kml.Folder] = old_doc.features()
     new_kml = kml.KML()
     new_doc = kml.Document(old_doc.ns, name=old_doc.name)
     new_kml.append(new_doc)
     for old_folder in old_folders:
+        assert isinstance(old_folder, kml.Folder)
         new_folder = kml.Folder(
             ns=old_folder.ns,
             id=old_folder.id,
@@ -152,12 +161,17 @@ def strip_hidden_cp_from_kml(path: str | Path) -> None:
             styles=old_folder.styles(),
             styleUrl=old_folder.styleUrl,
         )
-        for placemark in old_folder.features():
-            cp_data = {
-                e.name.lower(): e.value for e in placemark.extended_data.elements
-            }
-            if not bool(int(cp_data["hidden"])):
-                new_folder.append(placemark)
+        # this is an actual etappe folder
+        if str(old_folder.name).count("_") == 2:
+            for placemark in old_folder.features():
+                cp_data = {
+                    e.name.lower(): e.value for e in placemark.extended_data.elements
+                }
+                if not bool(int(cp_data["hidden"])):
+                    new_folder.append(placemark)
+        else:
+            for feature in old_folder.features():
+                new_folder.append(feature)
         new_doc.append(new_folder)
     with open(
         path.parent / Path(path.stem + "hidden_removed").with_suffix(".kml"), "w"
