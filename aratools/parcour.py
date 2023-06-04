@@ -173,7 +173,7 @@ def strip_hidden_cp_from_kml(path: str | Path) -> None:
             for feature in old_folder.features():
                 new_folder.append(feature)
         new_doc.append(new_folder)
-    with open(
-        path.parent / Path(path.stem + "hidden_removed").with_suffix(".kml"), "w"
-    ) as f:
+    fn = path.parent / Path(path.stem + "hidden_removed").with_suffix(".kml")
+    with open(fn, "w") as f:
         f.write(new_kml.to_string())
+    print(f"Wrote new kml with hidden cps removed to {fn}")
