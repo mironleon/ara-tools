@@ -3,7 +3,7 @@ from __future__ import annotations
 from pathlib import Path
 from typing import TYPE_CHECKING
 
-from pylatex import Document, NewPage, NoEscape, Tabular, Tabularx
+from pylatex import Document, NewPage, NoEscape, Tabular, Tabularx, VerticalSpace
 from pylatex.utils import bold, italic
 
 if TYPE_CHECKING:
@@ -16,20 +16,41 @@ def etappe_to_pdf(etappe: Etappe, team_names: tuple[str, ...], path: Path):
     """
     doc = Document(
         geometry_options={
-            "margin": "0.5cm",
+            "margin": "0.2cm",
             "showframe": False,
-            "paper": "a5paper",
-            "landscape": True,
+            "paper": "a4paper",
+            "landscape": False,
         },
     )
     doc.preamble.append(NoEscape(r"\usepackage{graphicx}"))
     doc.preamble.append(NoEscape(r"\renewcommand{\familydefault}{\sfdefault}"))
-    for team_name in team_names:
-        add_table_page(etappe=etappe, team_name=team_name, doc=doc)
+    n_teams = len(team_names)
+    # even
+    if n_teams % 2 == 0:
+        team_names_tuples = [
+            (team_names[i], team_names[i + 1]) for i in range(0, len(team_names), 2)
+        ]
+        last_team_name = None
+    else:
+        team_names_tuples = [
+            (team_names[i], team_names[i + 1]) for i in range(0, len(team_names) - 1, 2)
+        ]
+        last_team_name = team_names[-1]
+    # print(team_names_tuples)
+    for team_name_pair in team_names_tuples:
+        team_1, team_2 = team_name_pair
+        add_table_page(etappe=etappe, team_name=team_1, doc=doc, add_new_page=False)
+        add_table_page(etappe=etappe, team_name=team_2, doc=doc, add_new_page=True)
+    if last_team_name:
+        add_table_page(
+            etappe=etappe, team_name=last_team_name, doc=doc, add_new_page=True
+        )
     doc.generate_pdf(str(path), clean_tex=False)
 
 
-def add_table_page(etappe: Etappe, team_name: str, doc: Document):
+def add_table_page(
+    etappe: Etappe, team_name: str, doc: Document, add_new_page: bool = True
+):
     """
     Add a table page representing a ponskaart to a document
     """
@@ -42,7 +63,8 @@ def add_table_page(etappe: Etappe, team_name: str, doc: Document):
     else:
         n_upper = int(len(etappe) / 2) + 1
         n_lower = int(len(etappe) / 2)
-
+    doc.append(NoEscape("\n"))
+    doc.append(VerticalSpace("0.5em"))
     doc.append(NoEscape(r"\resizebox{0.9 \paperwidth}{3 cm}{"))
     with doc.create(
         Tabularx(
@@ -121,4 +143,8 @@ def add_table_page(etappe: Etappe, team_name: str, doc: Document):
         table.add_row(["prik hier" + 5 * "\n"] * n_lower)
         table.add_hline()
     doc.append(NoEscape("}"))
-    doc.append(NewPage())
+    doc.append(NoEscape("\n"))
+    doc.append(VerticalSpace("2.5em"))
+
+    if add_new_page:
+        doc.append(NewPage())
