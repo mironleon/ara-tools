@@ -34,9 +34,10 @@ class Parcour:
     def _process_teams_file(self, path: str | Path):
         # team names, single csv file, names only
         path = Path(path).resolve()
-        assert path.suffix == ".csv"
-        with csvreader(path) as reader:
-            self.team_names = tuple(row[0] for row in reader)
+        with open(path, 'r') as f:
+            lines = f.readlines()
+        lines = [line for line in lines if len(line)]
+        self.team_names = tuple(f"{i+1} {line.strip()}" for i, line in enumerate(lines))
         assert len(self.team_names)
 
     def _process_etappes_kml(self, path: str | Path):
