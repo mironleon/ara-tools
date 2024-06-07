@@ -1,6 +1,6 @@
 # ara-tools
 
-Tools for organising the Amsterdam Adventure Race. Generates printable landscape A3 ponskaart pdfs via [pylatex](https://github.com/JelteF/PyLaTeX)
+Tools for organizing the Amsterdam Adventure Race. Generates printable landscape A3 ponskaart pdfs via [pylatex](https://github.com/JelteF/PyLaTeX)
 
 See example [pdf](tests/example_data/pdfs/Etappe_1.pdf)
 
@@ -23,9 +23,11 @@ Every layer needs the following columns in the data table: `hint`(text), `hidden
 
 ![image](https://user-images.githubusercontent.com/119943561/222969233-db36cf57-4df4-44ba-be09-e16c5dc8f13d.png)
 
+You can either combine all etappes in a single googly mymaps document, with 1 layer per etappe, and export to a single kml file which can be used to generate all the ponskaarten at once. Alternatively, you can use 1 mymaps document per etappe, as long as the name of the layer with the cps follows the scheme described above. The code will ignore all other layers which do not contain exactly two underscore characters (I know, super safe).
+
 ### Team names
 
-On team name per row. While the code handles very long team names gracefully, it is recommended to limit the names to a sensible 50 characters or so
+On team name per row. While the code handles very long team names gracefully, it is recommended to limit the names to a sensible 50 characters or so. Does not have to be a csv file, just 1 name per line. Check the input data if teams put in names with multiple lines!
 
 ```csv
 blabalteam
@@ -70,8 +72,3 @@ Note that it may take several minutes for the notebook to start!
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/mironleon/aratools/main?urlpath=tree)
 
-## Planned features
-
-- Allow using [WGS84](https://wiki.gis.com/wiki/index.php/WGS84) coordinates (googles maps standard) and convert to rijksdriehoeks
-- Provide sample google sheets template with data validation
-- Provide guide for exporting csvs from google maps
