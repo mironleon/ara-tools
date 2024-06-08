@@ -87,7 +87,7 @@ def add_table_page(
         table.add_hline()
         table.add_row(
             [
-                "\n".join(str(c) for c in cp.coordinate) if cp.hidden else "Zie kaart"
+                "\n".join(str(c) for c in cp.coordinate) if not cp.hidden else "Zie kaart"
                 for cp in etappe[:n_upper]
             ],
             mapper=bold,
